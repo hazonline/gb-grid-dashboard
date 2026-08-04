@@ -3,72 +3,74 @@ import json
 import requests
 from datetime import datetime, timezone, timedelta
 
+# UK DNO Region Multipliers (Adjusts national Agile & FreePhase base rates by region)
+DNO_REGIONS = {
+    "_A": {"name": "Eastern England (_A)", "multiplier": 1.0, "offset": 0.0},
+    "_B": {"name": "East Midlands (_B)", "multiplier": 0.98, "offset": -0.2},
+    "_C": {"name": "London (_C)", "multiplier": 1.05, "offset": 0.5},
+    "_D": {"name": "Merseyside & North Wales (_D)", "multiplier": 1.03, "offset": 0.3},
+    "_E": {"name": "West Midlands (_E)", "multiplier": 0.99, "offset": -0.1},
+    "_F": {"name": "North Eastern (_F)", "multiplier": 0.97, "offset": -0.4},
+    "_G": {"name": "North Western (_G)", "multiplier": 1.01, "offset": 0.1},
+    "_H": {"name": "Southern England (_H)", "multiplier": 1.02, "offset": 0.2},
+    "_J": {"name": "South Eastern (_J)", "multiplier": 1.04, "offset": 0.4},
+    "_K": {"name": "South Wales (_K)", "multiplier": 1.06, "offset": 0.6},
+    "_L": {"name": "South Western (_L)", "multiplier": 1.07, "offset": 0.7},
+    "_M": {"name": "Yorkshire (_M)", "multiplier": 0.98, "offset": -0.3},
+    "_N": {"name": "Southern Scotland (_N)", "multiplier": 0.95, "offset": -0.6},
+    "_P": {"name": "Northern Scotland (_P)", "multiplier": 0.94, "offset": -0.8}
+}
+
 def fetch_live_grid_data():
-    """
-    Fetch live GB electricity generation outturn by fuel type (in MW)
-    using Elexon BMRS datasets/FUELINST/stream endpoint.
-    """
+    """Fetch exact instantaneous fuel generation in MW from Elexon BMRS."""
     fuel_mw = {}
     total_mw = 0.0
     renewable_mw = 0.0
 
     fuel_map = {
-        "CCGT": "Gas (CCGT)",
-        "OIL": "Oil",
-        "COAL": "Coal",
-        "NUCLEAR": "Nuclear",
-        "WIND": "Wind",
-        "SOLAR": "Solar",
-        "BIOMASS": "Biomass",
-        "HYDRO": "Hydro",
-        "NPSHYD": "Pumped Storage",
-        "INTFR": "French Link",
-        "INTIFA2": "IFA2 Link",
-        "INTIRL": "Irish Link",
-        "INTNED": "Dutch Link",
-        "INTEW": "EirGrid Link",
-        "INTNEM": "Nemo Link",
-        "INTNSL": "North Sea Link",
-        "INTVIK": "Viking Link",
-        "OTHER": "Other"
+        "CCGT": "Gas (CCGT)", "OIL": "Oil", "COAL": "Coal",
+        "NUCLEAR": "Nuclear", "WIND": "Wind", "SOLAR": "Solar",
+        "BIOMASS": "Biomass", "HYDRO": "Hydro", "NPSHYD": "Pumped Storage",
+        "INTFR": "French Link", "INTIFA2": "IFA2 Link", "INTIRL": "Irish Link",
+        "INTNED": "Dutch Link", "INTEW": "EirGrid Link", "INTNEM": "Nemo Link",
+        "INTNSL": "North Sea Link", "INTVIK": "Viking Link", "OTHER": "Other"
     }
 
-    # Primary Source: Elexon BMRS FUELINST Stream
     try:
         url = "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST/stream"
         res = requests.get(url, timeout=10).json()
-        
-        # BMRS stream returns list of fuel generation objects
         data_items = res if isinstance(res, list) else res.get("data", [])
         
+        # Take the most recent snapshot per fuel type
+        latest_by_fuel = {}
         for item in data_items:
-            raw_fuel = item.get("fuelType", "").upper()
+            fuel = item.get("fuelType", "").upper()
             mw = float(item.get("generation", 0) or 0)
-            
-            if mw > 0 and raw_fuel in fuel_map:
-                name = fuel_map[raw_fuel]
-                fuel_mw[name] = round(mw, 1)
-                total_mw += mw
-                
-                if raw_fuel in ["WIND", "SOLAR", "BIOMASS", "HYDRO"]:
-                    renewable_mw += mw
+            if fuel in fuel_map:
+                latest_by_fuel[fuel] = mw
+
+        for fuel, mw in latest_by_fuel.items():
+            name = fuel_map[fuel]
+            fuel_mw[name] = round(mw, 1)
+            total_mw += mw
+            if fuel in ["WIND", "SOLAR", "BIOMASS", "HYDRO"]:
+                renewable_mw += mw
 
     except Exception as e:
-        print(f"Elexon stream error: {e}. Attempting fallback...")
+        print(f"Elexon stream error: {e}")
 
-    # Secondary Fallback: Carbon Intensity API
-    if total_mw == 0:
+    # Fallback to Carbon Intensity API if stream fails
+    if total_mw < 5000: # Typical UK grid minimum is > 12,000 MW
         try:
-            fallback_res = requests.get("https://api.carbonintensity.org.uk/generation", timeout=10).json()
-            mix = fallback_res["data"]["generationmix"]
-            
-            # Assume nominal demand of 26,000 MW if live MW fails
-            est_total_demand = 26000.0
+            res = requests.get("https://api.carbonintensity.org.uk/generation", timeout=10).json()
+            mix = res["data"]["generationmix"]
+            est_total_demand = 25000.0
+            fuel_mw = {}
+            total_mw = 0.0
+            renewable_mw = 0.0
             for item in mix:
-                fuel_name = item["fuel"].capitalize()
-                perc = float(item["perc"])
-                mw = round((perc / 100.0) * est_total_demand, 1)
-                fuel_mw[fuel_name] = mw
+                mw = round((item["perc"] / 100.0) * est_total_demand, 1)
+                fuel_mw[item["fuel"].capitalize()] = mw
                 total_mw += mw
                 if item["fuel"] in ["wind", "solar", "biomass", "hydro"]:
                     renewable_mw += mw
@@ -84,145 +86,142 @@ def fetch_live_grid_data():
     }
 
 def fetch_carbon_intensity():
-    """Fetch live UK national carbon intensity (gCO2/kWh)."""
     try:
         res = requests.get("https://api.carbonintensity.org.uk/intensity", timeout=10).json()
         data = res["data"][0]["intensity"]
         return data["actual"] if data["actual"] is not None else data["forecast"]
-    except Exception as e:
-        print(f"Carbon intensity API error: {e}")
+    except Exception:
         return 0
 
-def fetch_official_octopus_agile():
-    """Fetch official published unit rates for Octopus Agile (p/kWh)."""
-    agile_rates = {}
-    try:
-        url = "https://api.octopus.energy/v1/products/AGILE-24-04-03/electricity-tariffs/E-1R-AGILE-24-04-03-A/standard-unit-rates/?page_size=96"
-        res = requests.get(url, timeout=10).json()
-        for item in res.get("results", []):
-            start_iso = item["valid_from"]
-            agile_rates[start_iso] = round(item["value_inc_vat"], 2)
-    except Exception as e:
-        print(f"Octopus API fetch error: {e}")
-    return agile_rates
+def fetch_octopus_agile_regional():
+    """Fetch Octopus Agile rates for all UK DNO regions."""
+    regional_agile = {}
+    for code in DNO_REGIONS.keys():
+        regional_agile[code] = {}
+        try:
+            url = f"https://api.octopus.energy/v1/products/AGILE-24-04-03/electricity-tariffs/E-1R-AGILE-24-04-03{code}/standard-unit-rates/?page_size=96"
+            res = requests.get(url, timeout=5).json()
+            for item in res.get("results", []):
+                regional_agile[code][item["valid_from"]] = round(item["value_inc_vat"], 2)
+        except Exception as e:
+            print(f"Error pulling region {code}: {e}")
+    return regional_agile
 
-def calculate_edf_freephase_band(dt, agile_price):
+def process_half_hourly_timeline(regional_agile):
     """
-    Calculate EDF FreePhase rate bands & free moment alerts:
-    - Green Band: 23:00 - 06:00
-    - Red Band: 16:00 - 19:00
-    - Amber Band: 06:00 - 16:00 & 19:00 - 23:00
-    - FREE MOMENT: Triggered when wholesale/Agile price <= 0p/kWh
+    Build 48 half-hour settlement slots for today/tomorrow.
+    Calculates flat daily Green/Amber/Red bands for EDF FreePhase.
     """
-    hour = dt.hour
-    is_free_moment = agile_price <= 0.0
-    
-    if 23 <= hour or hour < 6:
-        band_name = "Green"
-        band_code = "GREEN"
-        base_rate = round(max(8.0, agile_price * 0.65), 2)
-    elif 16 <= hour < 19:
-        band_name = "Red (Peak)"
-        band_code = "RED"
-        base_rate = round(max(32.0, agile_price * 1.35), 2)
-    else:
-        band_name = "Amber"
-        band_code = "AMBER"
-        base_rate = round(max(18.0, agile_price * 0.95), 2)
-        
-    if is_free_moment:
-        base_rate = 0.0
-
-    return {
-        "band_name": band_name,
-        "band_code": band_code,
-        "estimated_rate": base_rate,
-        "is_free_moment": is_free_moment
-    }
-
-def forecast_grid_and_prices(official_agile):
-    """Forecast prices & generation using Open-Meteo wind/solar models."""
     now = datetime.now(timezone.utc)
-    weather_url = (
-        "https://api.open-meteo.com/v1/forecast"
-        "?latitude=54.0&longitude=-2.0"
-        "&hourly=windspeed_10m,direct_normal_irradiance"
-        "&forecast_days=2"
-    )
+    start_time = now.replace(minute=0 if now.minute < 30 else 30, second=0, microsecond=0)
+    
+    half_hours = []
 
-    forecasts = []
+    # Weather forecast for renewable production estimate
     try:
-        res = requests.get(weather_url, timeout=10).json()
-        timestamps = res["hourly"]["time"]
-        wind_speeds = res["hourly"]["windspeed_10m"]
-        solar_rad = res["hourly"]["direct_normal_irradiance"]
+        w_res = requests.get(
+            "https://api.open-meteo.com/v1/forecast?latitude=54.0&longitude=-2.0&hourly=windspeed_10m,direct_normal_irradiance&forecast_days=2",
+            timeout=10
+        ).json()
+        w_times = w_res["hourly"]["time"]
+        w_wind = w_res["hourly"]["windspeed_10m"]
+        w_solar = w_res["hourly"]["direct_normal_irradiance"]
+    except Exception:
+        w_times, w_wind, w_solar = [], [], []
 
-        for i in range(len(timestamps)):
-            dt = datetime.fromisoformat(timestamps[i]).replace(tzinfo=timezone.utc)
+    # Step 1: Pre-generate raw Agile curve to derive EDF daily band averages
+    raw_agile_points = []
+    for i in range(48):
+        slot_dt = start_time + timedelta(minutes=30 * i)
+        iso_key = slot_dt.strftime("%Y-%m-%dT%H:%M:00Z")
+        hour = slot_dt.hour
 
-            if dt < now - timedelta(minutes=30):
-                continue
-
-            hour = dt.hour
+        # Base regional price reference (_A)
+        official_val = regional_agile.get("_A", {}).get(iso_key)
+        if official_val is not None:
+            price = official_val
+        else:
+            # Synthetic prediction model
+            w_idx = min(len(w_times)-1, int(i / 2)) if w_times else 0
+            wind_speed = w_wind[w_idx] if w_wind else 15
+            solar_irrad = w_solar[w_idx] if w_solar else 0
             
-            # Match official Octopus Agile rate if available
-            official_price = None
-            for k, v in official_agile.items():
-                if k.startswith(timestamps[i][:13]):
-                    official_price = v
-                    break
+            demand_gw = 20.0 + (10.0 if 7 <= hour <= 22 else 0)
+            renew_gw = min(18.0, (wind_speed / 35.0)**3 * 14.0 + (solar_irrad / 800.0) * 8.0)
+            net_gw = demand_gw - renew_gw
+            price = round(12.0 + (net_gw - 10.0) * 1.4, 2)
 
-            typical_demand_gw = 18.0 + 11.0 * (1 if 7 <= hour <= 22 else 0)
-            est_wind_gw = min(17.5, (wind_speeds[i] / 38.0) ** 3 * 15.0)
-            est_solar_gw = min(9.5, (solar_rad[i] / 750.0) * 8.5)
-            est_renewables_gw = est_wind_gw + est_solar_gw
-            net_demand_gw = typical_demand_gw - est_renewables_gw
+        raw_agile_points.append({"dt": slot_dt, "price": price, "hour": hour})
 
-            if net_demand_gw < 5.0:
-                predicted_price = -3.0 + (net_demand_gw * 0.5)
-            elif net_demand_gw < 10.0:
-                predicted_price = 1.0 + (net_demand_gw - 5.0) * 1.9
-            else:
-                predicted_price = 11.0 + (net_demand_gw - 10.0) * 1.3
+    # Step 2: Calculate Flat Daily FreePhase Band Rates (Green, Amber, Red)
+    green_prices = [p["price"] for p in raw_agile_points if p["hour"] >= 23 or p["hour"] < 6]
+    red_prices = [p["price"] for p in raw_agile_points if 16 <= p["hour"] < 19]
+    amber_prices = [p["price"] for p in raw_agile_points if (6 <= p["hour"] < 16) or (19 <= p["hour"] < 23)]
 
-            agile_price = official_price if official_price is not None else round(predicted_price, 2)
-            edf_info = calculate_edf_freephase_band(dt, agile_price)
+    edf_green_flat = round(max(9.5, (sum(green_prices)/len(green_prices)) * 0.70) if green_prices else 12.0, 2)
+    edf_amber_flat = round(max(18.0, (sum(amber_prices)/len(amber_prices)) * 0.90) if amber_prices else 20.0, 2)
+    edf_red_flat = round(max(34.0, (sum(red_prices)/len(red_prices)) * 1.25) if red_prices else 38.0, 2)
 
-            forecasts.append({
-                "iso_timestamp": dt.isoformat(),
-                "agile_price": agile_price,
-                "is_official_agile": official_price is not None,
-                "edf_band": edf_info["band_name"],
-                "edf_band_code": edf_info["band_code"],
-                "edf_estimated_rate": edf_info["estimated_rate"],
-                "is_free_moment": edf_info["is_free_moment"],
-                "est_renewable_pct": min(100, round((est_renewables_gw / typical_demand_gw) * 100, 1))
-            })
+    # Step 3: Populate 48 Half-Hourly Items for all regions
+    for pt in raw_agile_points:
+        dt = pt["dt"]
+        hour = pt["hour"]
+        iso_key = dt.strftime("%Y-%m-%dT%H:%M:00Z")
+        display_time = dt.strftime("%H:%M")
 
-    except Exception as e:
-        print(f"Forecasting error: {e}")
+        # FreePhase Band Classification
+        if 23 <= hour or hour < 6:
+            band_name, band_code, base_edf = "Green", "GREEN", edf_green_flat
+        elif 16 <= hour < 19:
+            band_name, band_code, base_edf = "Red (Peak)", "RED", edf_red_flat
+        else:
+            band_name, band_code, base_edf = "Amber", "AMBER", edf_amber_flat
 
-    return forecasts
+        region_data = {}
+        for code, info in DNO_REGIONS.items():
+            reg_agile = regional_agile.get(code, {}).get(iso_key)
+            if reg_agile is None:
+                reg_agile = round((pt["price"] * info["multiplier"]) + info["offset"], 2)
+            
+            # Check for Free Moment
+            is_free = reg_agile <= 0.0
+            reg_edf = 0.0 if is_free else round((base_edf * info["multiplier"]) + info["offset"], 2)
+
+            region_data[code] = {
+                "agile_price": reg_agile,
+                "edf_price": reg_edf,
+                "is_free": is_free
+            }
+
+        half_hours.append({
+            "iso_timestamp": dt.isoformat(),
+            "display_time": display_time,
+            "band_name": band_name,
+            "band_code": band_code,
+            "regional_pricing": region_data
+        })
+
+    return half_hours
 
 def main():
     os.makedirs("data", exist_ok=True)
-
     grid = fetch_live_grid_data()
     carbon = fetch_carbon_intensity()
-    official_agile = fetch_official_octopus_agile()
-    forecasts = forecast_grid_and_prices(official_agile)
+    reg_agile = fetch_octopus_agile_regional()
+    timeline = process_half_hourly_timeline(reg_agile)
 
     payload = {
         "last_updated": datetime.now(timezone.utc).isoformat(),
+        "dno_regions": DNO_REGIONS,
         "live_grid": grid,
         "carbon_intensity": carbon,
-        "forecasts": forecasts
+        "half_hourly_timeline": timeline
     }
 
     with open("data/grid_status.json", "w") as f:
         json.dump(payload, f, indent=2)
 
-    print(f"Grid status successfully updated with {len(forecasts)} forecasts.")
+    print("Data refreshed successfully.")
 
 if __name__ == "__main__":
     main()
