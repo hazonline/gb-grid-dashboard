@@ -22,10 +22,29 @@ DNO_REGIONS = {
     "_P": {"name": "P - Northern Scotland", "kraken_code": "-P"}
 }
 
-OCTOPUS_AGILE_PRODUCT = "AGILE-24-04-03"
+# Tariff Product Codes
+OCTOPUS_SVT_PRODUCT = "VAR-22-11-01"         # Flexible Octopus (Standard Variable Tariff)
+OCTOPUS_AGILE_PRODUCT = "AGILE-24-04-03"      # Octopus Agile Dynamic Tariff
 EDF_FREEPHASE_PRODUCT = "EDF_FREEPHASE_DYNAMIC_12M_HH"
 
-def fetch_octopus_region(dict_key, kraken_code):
+def fetch_octopus_svt_region(dict_key, kraken_code):
+    """Fetch active Octopus Flexible (SVT) unit rate (inc VAT) for a single DNO region."""
+    url = (
+        f"https://api.octopus.energy/v1/products/{OCTOPUS_SVT_PRODUCT}/"
+        f"electricity-tariffs/E-1R-{OCTOPUS_SVT_PRODUCT}{kraken_code}/standard-unit-rates/"
+    )
+    try:
+        resp = requests.get(url, timeout=10)
+        if resp.status_code == 200:
+            results = resp.json().get("results", [])
+            if results:
+                # Value inc VAT in p/kWh
+                return dict_key, round(results[0]["value_inc_vat"], 2)
+    except Exception as e:
+        print(f"Octopus SVT API error ({kraken_code}): {e}")
+    return dict_key, None
+
+def fetch_octopus_agile_region(dict_key, kraken_code):
     """Fetch Octopus Agile rates for a single DNO region."""
     url = (
         f"https://api.octopus.energy/v1/products/{OCTOPUS_AGILE_PRODUCT}/"
@@ -40,7 +59,7 @@ def fetch_octopus_region(dict_key, kraken_code):
                 ts = item["valid_from"].replace(".000Z", "Z")
                 rates[ts] = round(item["value_inc_vat"], 2)
     except Exception as e:
-        print(f"Octopus API error ({kraken_code}): {e}")
+        print(f"Octopus Agile API error ({kraken_code}): {e}")
     return dict_key, rates
 
 def fetch_edf_region(dict_key, kraken_code):
@@ -72,23 +91,33 @@ def fetch_carbon_intensity():
         print(f"Error fetching carbon intensity: {e}")
         return 0
 
-def build_timeline():
-    """Concurrently fetch rates for all 14 regions and construct 48 half-hour slots."""
+def build_data():
+    """Concurrently fetch SVT, Agile, and FreePhase rates across all 14 regions."""
     now = datetime.now(timezone.utc)
     start_time = now.replace(minute=0 if now.minute < 30 else 30, second=0, microsecond=0)
     
+    svt_by_region = {}
     agile_by_region = {}
     freephase_by_region = {}
 
-    with ThreadPoolExecutor(max_workers=14) as executor:
+    # Concurrent Execution across all 14 DNO regions for all three tariff endpoints
+    with ThreadPoolExecutor(max_workers=42) as executor:
+        svt_futures = [
+            executor.submit(fetch_octopus_svt_region, key, meta["kraken_code"])
+            for key, meta in DNO_REGIONS.items()
+        ]
         octopus_futures = [
-            executor.submit(fetch_octopus_region, key, meta["kraken_code"])
+            executor.submit(fetch_octopus_agile_region, key, meta["kraken_code"])
             for key, meta in DNO_REGIONS.items()
         ]
         edf_futures = [
             executor.submit(fetch_edf_region, key, meta["kraken_code"])
             for key, meta in DNO_REGIONS.items()
         ]
+
+        for future in as_completed(svt_futures):
+            key, rate = future.result()
+            svt_by_region[key] = rate
 
         for future in as_completed(octopus_futures):
             key, rates = future.result()
@@ -98,6 +127,7 @@ def build_timeline():
             key, rates = future.result()
             freephase_by_region[key] = rates
 
+    # Construct the 48 half-hour slots
     half_hours = []
 
     for i in range(48):
@@ -132,7 +162,15 @@ def build_timeline():
             "regional_pricing": region_pricing
         })
 
-    return half_hours
+    # Build DNO Metadata with live SVT baseline rates attached
+    dno_regions_payload = {}
+    for key, meta in DNO_REGIONS.items():
+        dno_regions_payload[key] = {
+            "name": meta["name"],
+            "svt_rate": svt_by_region.get(key)
+        }
+
+    return dno_regions_payload, half_hours
 
 def main():
     os.makedirs("data", exist_ok=True)
@@ -140,12 +178,12 @@ def main():
     print("Fetching national carbon intensity...")
     carbon = fetch_carbon_intensity()
 
-    print("Fetching half-hourly tariff rates across 14 DNO regions...")
-    timeline = build_timeline()
+    print("Fetching live SVT, Agile, and FreePhase rates across 14 DNO regions...")
+    dno_payload, timeline = build_data()
 
     payload = {
         "last_updated": datetime.now(timezone.utc).isoformat(),
-        "dno_regions": {k: {"name": v["name"]} for k, v in DNO_REGIONS.items()},
+        "dno_regions": dno_payload,
         "carbon_intensity": carbon,
         "half_hourly_timeline": timeline
     }
