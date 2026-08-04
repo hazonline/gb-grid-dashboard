@@ -61,62 +61,6 @@ def fetch_edf_region(dict_key, kraken_code):
         print(f"EDF Kraken API error ({kraken_code}): {e}")
     return dict_key, rates
 
-def fetch_live_grid():
-    """Fetch real-time grid generation and total load from Elexon / NESO data endpoints."""
-    fuel_mw = {}
-    total_mw = 0.0
-    renewable_mw = 0.0
-
-    # Primary: Elexon Current Outturn API
-    try:
-        url = "https://data.elexon.co.uk/bmrs/api/v1/generation/outturn/current"
-        resp = requests.get(url, timeout=10)
-        if resp.status_code == 200:
-            data = resp.json()
-            for entry in data:
-                fuel = entry.get("fuelType", "Other").title()
-                mw = float(entry.get("output", 0))
-                mw_val = max(0.0, round(mw, 1))
-                
-                fuel_mw[fuel] = mw_val
-                total_mw += mw_val
-                if fuel.lower() in ["wind", "solar", "biomass", "hydro"]:
-                    renewable_mw += mw_val
-
-    except Exception as e:
-        print(f"Elexon API primary endpoint error: {e}")
-
-    # Fallback: NESO Generation Mix API if Elexon primary endpoint fails
-    if total_mw == 0:
-        try:
-            url = "https://api.carbonintensity.org.uk/generation"
-            res = requests.get(url, timeout=10).json()
-            mix = res["data"]["generationmix"]
-            
-            # Fetch actual total system demand from NESO intensity statistics
-            demand_res = requests.get("https://api.carbonintensity.org.uk/intensity", timeout=10).json()
-            
-            # Use dynamically retrieved total grid load rather than a static integer
-            total_mw = float(demand_res.get("data", [{}])[0].get("intensity", {}).get("forecast", 24000)) * 150.0
-            
-            for item in mix:
-                fuel_name = item["fuel"].capitalize()
-                perc = item["perc"]
-                mw = round((perc / 100.0) * total_mw, 1)
-                fuel_mw[fuel_name] = mw
-                if item["fuel"] in ["wind", "solar", "biomass", "hydro"]:
-                    renewable_mw += mw
-        except Exception as e:
-            print(f"Fallback generation mix fetch error: {e}")
-
-    renewable_pct = round((renewable_mw / total_mw * 100), 1) if total_mw > 0 else 0.0
-
-    return {
-        "total_mw": round(total_mw, 0),
-        "renewable_pct": renewable_pct,
-        "fuel_breakdown": fuel_mw
-    }
-
 def fetch_carbon_intensity():
     """Fetch national average carbon intensity (gCO2/kWh)."""
     try:
@@ -193,8 +137,7 @@ def build_timeline():
 def main():
     os.makedirs("data", exist_ok=True)
     
-    print("Fetching live GB Grid metrics...")
-    grid = fetch_live_grid()
+    print("Fetching national carbon intensity...")
     carbon = fetch_carbon_intensity()
 
     print("Fetching half-hourly tariff rates across 14 DNO regions...")
@@ -203,7 +146,6 @@ def main():
     payload = {
         "last_updated": datetime.now(timezone.utc).isoformat(),
         "dno_regions": {k: {"name": v["name"]} for k, v in DNO_REGIONS.items()},
-        "live_grid": grid,
         "carbon_intensity": carbon,
         "half_hourly_timeline": timeline
     }
