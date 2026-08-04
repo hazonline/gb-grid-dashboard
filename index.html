@@ -54,6 +54,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-wrap: wrap;
         }
 
         label { font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
@@ -68,6 +69,15 @@
             cursor: pointer;
             flex-grow: 1;
             max-width: 400px;
+        }
+
+        .svt-banner {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.4rem;
+            border: 1px solid var(--border);
         }
 
         /* Top Metric Cards */
@@ -108,6 +118,9 @@
             font-weight: 600;
             margin-bottom: 1rem;
             color: var(--text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         /* Side-by-Side Tables Layout */
@@ -142,13 +155,13 @@
         .table-header.edf { color: var(--edf-color); background: rgba(168, 85, 247, 0.05); }
 
         .table-wrapper {
-            max-height: 500px;
+            max-height: 520px;
             overflow-y: auto;
         }
 
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
         th, td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); }
-        th { background: rgba(0,0,0,0.2); color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; position: sticky; top: 0; background: var(--card-bg); z-index: 10; }
+        th { background: var(--card-bg); color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid var(--border); }
 
         .badge {
             display: inline-block;
@@ -162,9 +175,8 @@
         .badge-red { background: rgba(239, 68, 68, 0.2); color: var(--red); }
         .badge-free { background: var(--edf-color); color: #fff; font-weight: 700; }
 
-        .price-free { color: var(--edf-color); font-weight: 700; }
-        .price-negative { color: var(--green); font-weight: 700; }
-        .price-high { color: var(--red); font-weight: 600; }
+        .var-cheaper { color: var(--green); font-weight: 600; }
+        .var-dearer { color: var(--red); font-weight: 600; }
     </style>
 </head>
 <body>
@@ -180,6 +192,7 @@
         <select id="dnoSelect" onchange="updateDashboard()">
             <option value="">Loading regions...</option>
         </select>
+        <div class="svt-banner" id="svtDisplay">Regional SVT Baseline: -- p/kWh</div>
     </div>
 
     <!-- Summary Metrics -->
@@ -192,23 +205,26 @@
         <div class="card">
             <span class="card-label">Current Agile Rate</span>
             <span class="card-value" id="agileVal" style="color: var(--agile-color);">--</span>
-            <span class="card-sub">p / kWh</span>
+            <span class="card-sub" id="agileSvtDiff">-- vs SVT</span>
         </div>
         <div class="card">
-            <span class="card-label">Current EDF FreePhase</span>
+            <span class="card-label">Current FreePhase Rate</span>
             <span class="card-value" id="edfVal" style="color: var(--edf-color);">--</span>
-            <span class="card-sub">p / kWh</span>
+            <span class="card-sub" id="edfSvtDiff">-- vs SVT</span>
         </div>
         <div class="card">
             <span class="card-label">Next Free Window</span>
             <span class="card-value" id="freeSlotVal">--</span>
-            <span class="card-sub">EDF Dynamic Slot</span>
+            <span class="card-sub">EDF Free Phase (UK Time)</span>
         </div>
     </div>
 
     <!-- Interactive Line Chart -->
     <div class="chart-container">
-        <div class="chart-header">📊 24-Hour Price Trajectory (p/kWh)</div>
+        <div class="chart-header">
+            <span>📊 24-Hour Price Trajectory (UK Local Time)</span>
+            <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">Solid line = Unit Rate | Dashed line = SVT Benchmark</span>
+        </div>
         <canvas id="tariffChart"></canvas>
     </div>
 
@@ -219,15 +235,15 @@
         <div class="table-card">
             <div class="table-header agile">
                 <span>🐙 Octopus Agile</span>
-                <span style="font-weight: 400; font-size: 0.85rem;">Dynamic Wholesale Pricing</span>
+                <span style="font-weight: 400; font-size: 0.85rem;">Half-Hourly Dynamic Wholesale</span>
             </div>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>Time Slot</th>
+                            <th>UK Time Slot</th>
                             <th>Unit Rate (p)</th>
-                            <th>Pricing Tier</th>
+                            <th>vs Regional SVT</th>
                         </tr>
                     </thead>
                     <tbody id="agileTableBody">
@@ -241,15 +257,15 @@
         <div class="table-card">
             <div class="table-header edf">
                 <span>⚡ EDF FreePhase</span>
-                <span style="font-weight: 400; font-size: 0.85rem;">Dynamic Structural Bands</span>
+                <span style="font-weight: 400; font-size: 0.85rem;">Grouped Time Windows</span>
             </div>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>Time Slot</th>
+                            <th>Time Window (UK)</th>
                             <th>Unit Rate (p)</th>
-                            <th>Structural Band</th>
+                            <th>vs Regional SVT</th>
                         </tr>
                     </thead>
                     <tbody id="edfTableBody">
@@ -266,12 +282,23 @@
     let gridData = null;
     let tariffChart = null;
 
+    // Helper: Formats ISO timestamp directly to UK Local Time (GMT/BST) string "HH:MM"
+    function formatUKTime(isoString) {
+        if (!isoString) return '--:--';
+        const date = new Date(isoString);
+        return date.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'Europe/London'
+        });
+    }
+
     async function loadData() {
         try {
             const res = await fetch('data/grid_status.json');
             gridData = await res.json();
             
-            document.getElementById('lastUpdated').innerText = `Updated: ${new Date(gridData.last_updated).toLocaleString()}`;
+            document.getElementById('lastUpdated').innerText = `Updated: ${new Date(gridData.last_updated).toLocaleString('en-GB', { timeZone: 'Europe/London' })}`;
             document.getElementById('carbonVal').innerText = gridData.carbon_intensity || '0';
 
             const select = document.getElementById('dnoSelect');
@@ -279,7 +306,7 @@
             for (const [key, region] of Object.entries(gridData.dno_regions)) {
                 const opt = document.createElement('option');
                 opt.value = key;
-                opt.innerText = region.name;
+                opt.innerText = `${region.name} (${key})`;
                 select.appendChild(opt);
             }
 
@@ -304,23 +331,32 @@
                 labels: [],
                 datasets: [
                     {
-                        label: 'Octopus Agile (p/kWh)',
+                        label: 'Octopus Agile (p)',
                         borderColor: '#38bdf8',
                         backgroundColor: 'rgba(56, 189, 248, 0.1)',
                         borderWidth: 2,
-                        tension: 0.3,
-                        pointRadius: 2,
-                        fill: true,
+                        tension: 0.2,
+                        pointRadius: 1,
+                        fill: false,
                         data: []
                     },
                     {
-                        label: 'EDF FreePhase (p/kWh)',
+                        label: 'EDF FreePhase (p)',
                         borderColor: '#a855f7',
                         backgroundColor: 'rgba(168, 85, 247, 0.1)',
                         borderWidth: 2,
-                        tension: 0.3,
-                        pointRadius: 2,
-                        fill: true,
+                        stepped: true,
+                        pointRadius: 1,
+                        fill: false,
+                        data: []
+                    },
+                    {
+                        label: 'Regional SVT Baseline',
+                        borderColor: '#94a3b8',
+                        borderDash: [5, 5],
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        fill: false,
                         data: []
                     }
                 ]
@@ -336,7 +372,7 @@
                     y: {
                         grid: { color: 'rgba(255, 255, 255, 0.05)' },
                         ticks: { color: '#94a3b8' },
-                        title: { display: true, text: 'Pence per kWh', color: '#94a3b8' }
+                        title: { display: true, text: 'p / kWh', color: '#94a3b8' }
                     }
                 },
                 plugins: {
@@ -353,31 +389,48 @@
         const regionKey = document.getElementById('dnoSelect').value;
         localStorage.setItem('selected_dno', regionKey);
 
+        const regionInfo = gridData.dno_regions[regionKey] || {};
+        const svtRate = regionInfo.svt_rate || 24.50; // Fallback to current national avg standard variable rate if not set
+
+        document.getElementById('svtDisplay').innerText = `Regional SVT Baseline: ${svtRate.toFixed(2)} p/kWh`;
+
         const timeline = gridData.half_hourly_timeline || [];
         if (timeline.length === 0) return;
 
-        // Current Rates
+        // Current Slot Metrics
         const currentSlot = timeline[0];
         const currentPricing = currentSlot.regional_pricing[regionKey] || {};
 
-        const agileVal = currentPricing.agile_price !== null ? currentPricing.agile_price.toFixed(2) : '--';
-        const edfVal = currentPricing.edf_price !== null ? currentPricing.edf_price.toFixed(2) : '--';
+        const agileVal = currentPricing.agile_price !== null ? currentPricing.agile_price : null;
+        const edfVal = currentPricing.edf_price !== null ? currentPricing.edf_price : null;
 
-        document.getElementById('agileVal').innerText = `${agileVal}`;
-        document.getElementById('edfVal').innerText = `${edfVal}`;
+        document.getElementById('agileVal').innerText = agileVal !== null ? `${agileVal.toFixed(2)}p` : '--';
+        document.getElementById('edfVal').innerText = edfVal !== null ? `${edfVal.toFixed(2)}p` : '--';
+
+        if (agileVal !== null) {
+            const diff = agileVal - svtRate;
+            document.getElementById('agileSvtDiff').innerText = `${diff <= 0 ? '' : '+'}${diff.toFixed(2)}p vs SVT`;
+            document.getElementById('agileSvtDiff').className = `card-sub ${diff <= 0 ? 'var-cheaper' : 'var-dearer'}`;
+        }
+
+        if (edfVal !== null) {
+            const diff = edfVal - svtRate;
+            document.getElementById('edfSvtDiff').innerText = edfVal === 0 ? 'FREE WINDOW' : `${diff <= 0 ? '' : '+'}${diff.toFixed(2)}p vs SVT`;
+            document.getElementById('edfSvtDiff').className = `card-sub ${diff <= 0 ? 'var-cheaper' : 'var-dearer'}`;
+        }
 
         // Next Free Slot Logic
         let nextFreeTime = null;
         for (const slot of timeline) {
             const p = slot.regional_pricing[regionKey];
-            if (p && p.is_free_moment) {
-                nextFreeTime = slot.display_time;
+            if (p && (p.is_free_moment || p.edf_price === 0)) {
+                nextFreeTime = formatUKTime(slot.valid_from);
                 break;
             }
         }
 
         const freeValElem = document.getElementById('freeSlotVal');
-        if (currentPricing.is_free_moment) {
+        if (currentPricing.is_free_moment || currentPricing.edf_price === 0) {
             freeValElem.innerText = "FREE NOW";
             freeValElem.style.color = "var(--edf-color)";
         } else if (nextFreeTime) {
@@ -388,69 +441,117 @@
             freeValElem.style.color = "var(--text-muted)";
         }
 
-        // Update Chart
-        const labels = timeline.map(s => s.display_time);
+        // Chart Data Update (Local UK Times)
+        const labels = timeline.map(s => formatUKTime(s.valid_from));
         const agileData = timeline.map(s => s.regional_pricing[regionKey]?.agile_price ?? null);
         const edfData = timeline.map(s => s.regional_pricing[regionKey]?.edf_price ?? null);
+        const svtData = timeline.map(() => svtRate);
 
         tariffChart.data.labels = labels;
         tariffChart.data.datasets[0].data = agileData;
         tariffChart.data.datasets[1].data = edfData;
+        tariffChart.data.datasets[2].data = svtData;
         tariffChart.update();
 
-        // Populate Octopus Agile Table
+        // 1. Render Octopus Agile (Half-Hourly Dynamic Pricing vs SVT)
         const agileTbody = document.getElementById('agileTableBody');
         agileTbody.innerHTML = '';
         timeline.forEach(slot => {
             const price = slot.regional_pricing[regionKey]?.agile_price;
             const tr = document.createElement('tr');
+            const timeStr = `${formatUKTime(slot.valid_from)} - ${formatUKTime(slot.valid_to)}`;
 
             let rateText = '--';
-            let tierBadge = '<span class="badge badge-amber">Standard</span>';
+            let varText = '--';
+            let varClass = '';
 
             if (price !== null && price !== undefined) {
                 rateText = `${price.toFixed(2)} p`;
-                if (price < 0) {
-                    tierBadge = '<span class="badge badge-green">Plunge Pricing</span>';
-                } else if (price > 35) {
-                    tierBadge = '<span class="badge badge-red">Peak Rate</span>';
-                } else if (price < 12) {
-                    tierBadge = '<span class="badge badge-green">Low Cost</span>';
+                const diff = price - svtRate;
+                if (diff < 0) {
+                    varText = `${diff.toFixed(2)} p (${Math.abs((diff/svtRate)*100).toFixed(0)}% cheaper)`;
+                    varClass = 'var-cheaper';
+                } else if (diff > 0) {
+                    varText = `+${diff.toFixed(2)} p (${Math.abs((diff/svtRate)*100).toFixed(0)}% dearer)`;
+                    varClass = 'var-dearer';
+                } else {
+                    varText = 'Same as SVT';
                 }
             }
 
             tr.innerHTML = `
-                <td>${slot.display_time}</td>
-                <td class="${price < 0 ? 'price-negative' : (price > 35 ? 'price-high' : '')}">${rateText}</td>
-                <td>${tierBadge}</td>
+                <td>${timeStr}</td>
+                <td><strong>${rateText}</strong></td>
+                <td class="${varClass}">${varText}</td>
             `;
             agileTbody.appendChild(tr);
         });
 
-        // Populate EDF FreePhase Table
+        // 2. Render EDF FreePhase (Grouped Stacked Windows)
         const edfTbody = document.getElementById('edfTableBody');
         edfTbody.innerHTML = '';
+
+        // Group consecutive slots with identical EDF rates / structural status
+        const groupedEdf = [];
+        let currentBlock = null;
+
         timeline.forEach(slot => {
             const pricing = slot.regional_pricing[regionKey] || {};
-            const price = pricing.edf_price;
-            const isFree = pricing.is_free_moment;
+            const price = pricing.edf_price ?? null;
+            const isFree = pricing.is_free_moment || price === 0;
+
+            if (!currentBlock) {
+                currentBlock = {
+                    startTime: slot.valid_from,
+                    endTime: slot.valid_to,
+                    price: price,
+                    isFree: isFree
+                };
+            } else if (currentBlock.price === price && currentBlock.isFree === isFree) {
+                currentBlock.endTime = slot.valid_to;
+            } else {
+                groupedEdf.push(currentBlock);
+                currentBlock = {
+                    startTime: slot.valid_from,
+                    endTime: slot.valid_to,
+                    price: price,
+                    isFree: isFree
+                };
+            }
+        });
+        if (currentBlock) groupedEdf.push(currentBlock);
+
+        // Render Stacked Grouped Windows
+        groupedEdf.forEach(block => {
             const tr = document.createElement('tr');
+            const windowStr = `${formatUKTime(block.startTime)} - ${formatUKTime(block.endTime)}`;
 
             let rateText = '--';
-            let bandBadge = `<span class="badge ${slot.band_code === 'GREEN' ? 'badge-green' : (slot.band_code === 'RED' ? 'badge-red' : 'badge-amber')}">${slot.band_name}</span>`;
+            let varText = '--';
+            let varClass = '';
 
-            if (price !== null && price !== undefined) {
-                rateText = `${price.toFixed(2)} p`;
-            }
-
-            if (isFree) {
-                bandBadge = `<span class="badge badge-free">FREE MOMENT</span>`;
+            if (block.isFree) {
+                rateText = `<span class="badge badge-free">FREE (0.00p)</span>`;
+                varText = `-100% (FREE ELECTRICITY)`;
+                varClass = 'var-cheaper';
+            } else if (block.price !== null) {
+                rateText = `${block.price.toFixed(2)} p`;
+                const diff = block.price - svtRate;
+                if (diff < 0) {
+                    varText = `${diff.toFixed(2)} p (${Math.abs((diff/svtRate)*100).toFixed(0)}% cheaper)`;
+                    varClass = 'var-cheaper';
+                } else if (diff > 0) {
+                    varText = `+${diff.toFixed(2)} p (${Math.abs((diff/svtRate)*100).toFixed(0)}% dearer)`;
+                    varClass = 'var-dearer';
+                } else {
+                    varText = 'Same as SVT';
+                }
             }
 
             tr.innerHTML = `
-                <td>${slot.display_time}</td>
-                <td class="${isFree ? 'price-free' : ''}">${rateText}</td>
-                <td>${bandBadge}</td>
+                <td><strong>${windowStr}</strong></td>
+                <td>${rateText}</td>
+                <td class="${varClass}">${varText}</td>
             `;
             edfTbody.appendChild(tr);
         });
