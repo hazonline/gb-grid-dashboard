@@ -1,18 +1,62 @@
 {
-  "last_updated": "2026-08-04T22:01:34.570725+00:00",
+  "last_updated": "2026-08-04T22:06:41.333744+00:00",
+  "dno_regions": {
+    "_A": {
+      "name": "A - Eastern England"
+    },
+    "_B": {
+      "name": "B - East Midlands"
+    },
+    "_C": {
+      "name": "C - London"
+    },
+    "_D": {
+      "name": "D - Merseyside & N. Wales"
+    },
+    "_E": {
+      "name": "E - West Midlands"
+    },
+    "_F": {
+      "name": "F - North East England"
+    },
+    "_G": {
+      "name": "G - North West England"
+    },
+    "_H": {
+      "name": "H - Southern England"
+    },
+    "_J": {
+      "name": "J - South East England"
+    },
+    "_K": {
+      "name": "K - South Wales"
+    },
+    "_L": {
+      "name": "L - South West England"
+    },
+    "_M": {
+      "name": "M - Yorkshire"
+    },
+    "_N": {
+      "name": "N - Southern Scotland"
+    },
+    "_P": {
+      "name": "P - Northern Scotland"
+    }
+  },
   "live_grid": {
-    "total_mw": 24500.0,
+    "total_mw": 28000.0,
     "renewable_pct": 50.9,
     "fuel_breakdown": {
-      "Biomass": 2327.5,
+      "Biomass": 2660.0,
       "Coal": 0.0,
-      "Imports": 1739.5,
-      "Gas": 6884.5,
-      "Nuclear": 3405.5,
+      "Imports": 1988.0,
+      "Gas": 7868.0,
+      "Nuclear": 3892.0,
       "Other": 0.0,
       "Hydro": 0.0,
       "Solar": 0.0,
-      "Wind": 10143.0
+      "Wind": 11592.0
     }
   },
   "carbon_intensity": 114,
