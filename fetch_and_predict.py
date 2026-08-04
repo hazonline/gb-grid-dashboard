@@ -6,20 +6,20 @@ from datetime import datetime, timezone, timedelta
 
 # All 14 UK Distribution Network Operator (DNO) Regions
 DNO_REGIONS = {
-    "_A": {"name": "A - Eastern England", "kraken_code": "-A"},
-    "_B": {"name": "B - East Midlands", "kraken_code": "-B"},
-    "_C": {"name": "C - London", "kraken_code": "-C"},
-    "_D": {"name": "D - Merseyside & N. Wales", "kraken_code": "-D"},
-    "_E": {"name": "E - West Midlands", "kraken_code": "-E"},
-    "_F": {"name": "F - North East England", "kraken_code": "-F"},
-    "_G": {"name": "G - North West England", "kraken_code": "-G"},
-    "_H": {"name": "H - Southern England", "kraken_code": "-H"},
-    "_J": {"name": "J - South East England", "kraken_code": "-J"},
-    "_K": {"name": "K - South Wales", "kraken_code": "-K"},
-    "_L": {"name": "L - South West England", "kraken_code": "-L"},
-    "_M": {"name": "M - Yorkshire", "kraken_code": "-M"},
-    "_N": {"name": "N - Southern Scotland", "kraken_code": "-N"},
-    "_P": {"name": "P - Northern Scotland", "kraken_code": "-P"}
+    "A": {"name": "Eastern England", "kraken_code": "-A"},
+    "B": {"name": "East Midlands", "kraken_code": "-B"},
+    "C": {"name": "London", "kraken_code": "-C"},
+    "D": {"name": "Merseyside & N. Wales", "kraken_code": "-D"},
+    "E": {"name": "West Midlands", "kraken_code": "-E"},
+    "F": {"name": "North East England", "kraken_code": "-F"},
+    "G": {"name": "North West England", "kraken_code": "-G"},
+    "H": {"name": "Southern England", "kraken_code": "-H"},
+    "J": {"name": "South East England", "kraken_code": "-J"},
+    "K": {"name": "South Wales", "kraken_code": "-K"},
+    "L": {"name": "South West England", "kraken_code": "-L"},
+    "M": {"name": "Yorkshire", "kraken_code": "-M"},
+    "N": {"name": "Southern Scotland", "kraken_code": "-N"},
+    "P": {"name": "Northern Scotland", "kraken_code": "-P"}
 }
 
 # Tariff Product Codes
@@ -38,7 +38,6 @@ def fetch_octopus_svt_region(dict_key, kraken_code):
         if resp.status_code == 200:
             results = resp.json().get("results", [])
             if results:
-                # Value inc VAT in p/kWh
                 return dict_key, round(results[0]["value_inc_vat"], 2)
     except Exception as e:
         print(f"Octopus SVT API error ({kraken_code}): {e}")
@@ -100,7 +99,6 @@ def build_data():
     agile_by_region = {}
     freephase_by_region = {}
 
-    # Concurrent Execution across all 14 DNO regions for all three tariff endpoints
     with ThreadPoolExecutor(max_workers=42) as executor:
         svt_futures = [
             executor.submit(fetch_octopus_svt_region, key, meta["kraken_code"])
@@ -131,10 +129,10 @@ def build_data():
     half_hours = []
 
     for i in range(48):
-        slot_dt = start_time + timedelta(minutes=30 * i)
-        iso_key = slot_dt.strftime("%Y-%m-%dT%H:%M:00Z")
-        display_time = slot_dt.strftime("%H:%M")
-        hour = slot_dt.hour
+        slot_start = start_time + timedelta(minutes=30 * i)
+        slot_end = slot_start + timedelta(minutes=30)
+        iso_key = slot_start.strftime("%Y-%m-%dT%H:%M:00Z")
+        hour = slot_start.hour
 
         if 23 <= hour or hour < 6:
             band_name, band_code = "Green (Off-Peak)", "GREEN"
@@ -155,8 +153,8 @@ def build_data():
             }
 
         half_hours.append({
-            "iso_timestamp": slot_dt.isoformat(),
-            "display_time": display_time,
+            "valid_from": slot_start.isoformat(),
+            "valid_to": slot_end.isoformat(),
             "band_name": band_name,
             "band_code": band_code,
             "regional_pricing": region_pricing
