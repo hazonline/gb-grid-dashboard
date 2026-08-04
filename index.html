@@ -12,7 +12,6 @@
       --text-main: #f8fafc;
       --accent-green: #22c55e;
       --accent-blue: #38bdf8;
-      --accent-amber: #f59e0b;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -73,7 +72,7 @@
 
     <div class="grid-stats">
       <div class="stat-card">
-        <div>Live Demand</div>
+        <div>Estimated Grid Generation</div>
         <div class="stat-value" id="stat-total-mw">-- MW</div>
       </div>
       <div class="stat-card">
@@ -87,14 +86,14 @@
     </div>
 
     <div class="dashboard-panel">
-      <h2>Live Power Generation Breakdown</h2>
+      <h2>Live Generation Fuel Mix</h2>
       <canvas id="generationChart" height="90"></canvas>
     </div>
 
     <div class="dashboard-panel">
-      <h2>⚡ Forecasted Octopus Agile & FreePhase Opportunities</h2>
+      <h2>⚡ Forecasted Agile & FreePhase Opportunities</h2>
       <p style="color: #94a3b8; font-size: 0.88rem;">
-        Upcoming hours showing official Octopus rates or predicted zero/negative rate windows based on wind & solar forecasts.
+        Upcoming hours showing official rates or predicted zero/negative rate windows based on wind & solar forecasts.
       </p>
       <table>
         <thead>
@@ -111,25 +110,37 @@
   </div>
 
   <script>
+    function formatDate(isoStr) {
+      if (!isoStr) return 'N/A';
+      const d = new Date(isoStr);
+      return d.toLocaleString('en-GB', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
     async function loadGridDashboard() {
       try {
         const res = await fetch('./data/grid_status.json?t=' + Date.now());
         const data = await res.json();
 
-        // Stats
-        document.getElementById('last-updated').innerText = `Last updated: ${new Date(data.last_updated).toLocaleString()}`;
-        document.getElementById('stat-total-mw').innerText = data.live_grid.total_mw > 0 ? `${data.live_grid.total_mw.toLocaleString()} MW` : 'Live Mix Only';
+        // Update Stats
+        document.getElementById('last-updated').innerText = `Last updated: ${new Date(data.last_updated).toLocaleString('en-GB')}`;
+        document.getElementById('stat-total-mw').innerText = `${data.live_grid.total_mw.toLocaleString()} MW`;
         document.getElementById('stat-renewable-pct').innerText = `${data.live_grid.renewable_pct}%`;
         document.getElementById('stat-carbon').innerText = `${data.carbon_intensity_gco2_kwh} g/kWh`;
 
-        // Chart
+        // Render Generation Chart
         const breakdown = data.live_grid.breakdown;
         new Chart(document.getElementById('generationChart'), {
           type: 'bar',
           data: {
             labels: Object.keys(breakdown),
             datasets: [{
-              label: 'Output (MW / %)',
+              label: 'Estimated MW Share',
               data: Object.values(breakdown),
               backgroundColor: '#38bdf8'
             }]
@@ -147,14 +158,14 @@
         // Forecast Table
         const tbody = document.getElementById('forecast-body');
         tbody.innerHTML = '';
-        
+
         data.predictions.slice(0, 24).forEach(pred => {
           const row = document.createElement('tr');
           const isFree = pred.is_octopus_agile_free_or_negative || pred.is_edf_freephase_trigger;
           
           row.innerHTML = `
             <td>
-              ${pred.display_time}
+              ${formatDate(pred.timestamp)}
               <span class="tag ${pred.is_official ? 'tag-official' : 'tag-predicted'}">
                 ${pred.is_official ? 'Official' : 'Predicted'}
               </span>
