@@ -1,47 +1,61 @@
 {
-  "last_updated": "2026-08-04T22:33:06.358405+00:00",
+  "last_updated": "2026-08-04T22:35:20.966329+00:00",
   "dno_regions": {
     "_A": {
-      "name": "A - Eastern England"
+      "name": "A - Eastern England",
+      "svt_rate": 26.38
     },
     "_B": {
-      "name": "B - East Midlands"
+      "name": "B - East Midlands",
+      "svt_rate": 25.1
     },
     "_C": {
-      "name": "C - London"
+      "name": "C - London",
+      "svt_rate": 26.35
     },
     "_D": {
-      "name": "D - Merseyside & N. Wales"
+      "name": "D - Merseyside & N. Wales",
+      "svt_rate": 27.66
     },
     "_E": {
-      "name": "E - West Midlands"
+      "name": "E - West Midlands",
+      "svt_rate": 25.33
     },
     "_F": {
-      "name": "F - North East England"
+      "name": "F - North East England",
+      "svt_rate": 25.22
     },
     "_G": {
-      "name": "G - North West England"
+      "name": "G - North West England",
+      "svt_rate": 26.13
     },
     "_H": {
-      "name": "H - Southern England"
+      "name": "H - Southern England",
+      "svt_rate": 26.42
     },
     "_J": {
-      "name": "J - South East England"
+      "name": "J - South East England",
+      "svt_rate": 26.67
     },
     "_K": {
-      "name": "K - South Wales"
+      "name": "K - South Wales",
+      "svt_rate": 26.33
     },
     "_L": {
-      "name": "L - South West England"
+      "name": "L - South West England",
+      "svt_rate": 26.39
     },
     "_M": {
-      "name": "M - Yorkshire"
+      "name": "M - Yorkshire",
+      "svt_rate": 25.3
     },
     "_N": {
-      "name": "N - Southern Scotland"
+      "name": "N - Southern Scotland",
+      "svt_rate": 25.85
     },
     "_P": {
-      "name": "P - Northern Scotland"
+      "name": "P - Northern Scotland",
+      "svt_rate": 26.42
     }
   },
   "carbon_intensity": 126,
