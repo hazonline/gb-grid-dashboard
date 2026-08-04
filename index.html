@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GB Tariff Intelligence | Agile vs FreePhase</title>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --bg: #0f172a;
@@ -11,11 +13,11 @@
             --border: #334155;
             --text: #f8fafc;
             --text-muted: #94a3b8;
-            --accent: #38bdf8;
+            --agile-color: #38bdf8;
+            --edf-color: #a855f7;
             --green: #22c55e;
             --amber: #f59e0b;
             --red: #ef4444;
-            --purple: #a855f7;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,14 +29,14 @@
             line-height: 1.5;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; }
+        .container { max-width: 1200px; margin: 0 auto; }
 
         header {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border);
             gap: 1rem;
@@ -48,7 +50,7 @@
             padding: 1rem 1.25rem;
             border-radius: 0.75rem;
             border: 1px solid var(--border);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -68,11 +70,12 @@
             max-width: 400px;
         }
 
+        /* Top Metric Cards */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .card {
@@ -89,16 +92,63 @@
         .card-value { font-size: 1.75rem; font-weight: 700; }
         .card-sub { font-size: 0.8rem; color: var(--text-muted); }
 
-        .table-container {
+        /* Chart Section */
+        .chart-container {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 0.75rem;
-            overflow-x: auto;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            position: relative;
+            height: 380px;
+        }
+
+        .chart-header {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        /* Side-by-Side Tables Layout */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .tables-grid { grid-template-columns: 1fr; }
+        }
+
+        .table-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1rem 1.25rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-header.agile { color: var(--agile-color); background: rgba(56, 189, 248, 0.05); }
+        .table-header.edf { color: var(--edf-color); background: rgba(168, 85, 247, 0.05); }
+
+        .table-wrapper {
+            max-height: 500px;
+            overflow-y: auto;
         }
 
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
-        th, td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
-        th { background: rgba(0,0,0,0.2); color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
+        th, td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); }
+        th { background: rgba(0,0,0,0.2); color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; position: sticky; top: 0; background: var(--card-bg); z-index: 10; }
 
         .badge {
             display: inline-block;
@@ -110,15 +160,11 @@
         .badge-green { background: rgba(34, 197, 94, 0.2); color: var(--green); }
         .badge-amber { background: rgba(245, 158, 11, 0.2); color: var(--amber); }
         .badge-red { background: rgba(239, 68, 68, 0.2); color: var(--red); }
-        .badge-free { background: var(--purple); color: #fff; font-weight: 700; animation: pulse 2s infinite; }
+        .badge-free { background: var(--edf-color); color: #fff; font-weight: 700; }
 
-        .price-free { color: var(--purple); font-weight: 700; }
+        .price-free { color: var(--edf-color); font-weight: 700; }
         .price-negative { color: var(--green); font-weight: 700; }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
+        .price-high { color: var(--red); font-weight: 600; }
     </style>
 </head>
 <body>
@@ -136,6 +182,7 @@
         </select>
     </div>
 
+    <!-- Summary Metrics -->
     <div class="cards-grid">
         <div class="card">
             <span class="card-label">Carbon Intensity</span>
@@ -144,52 +191,89 @@
         </div>
         <div class="card">
             <span class="card-label">Current Agile Rate</span>
-            <span class="card-value" id="agileVal">--</span>
+            <span class="card-value" id="agileVal" style="color: var(--agile-color);">--</span>
             <span class="card-sub">p / kWh</span>
         </div>
         <div class="card">
             <span class="card-label">Current EDF FreePhase</span>
-            <span class="card-value" id="edfVal">--</span>
+            <span class="card-value" id="edfVal" style="color: var(--edf-color);">--</span>
             <span class="card-sub">p / kWh</span>
         </div>
         <div class="card">
             <span class="card-label">Next Free Window</span>
             <span class="card-value" id="freeSlotVal">--</span>
-            <span class="card-sub" id="freeSlotSub">EDF Dynamic</span>
+            <span class="card-sub">EDF Dynamic Slot</span>
         </div>
     </div>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Band</th>
-                    <th>Octopus Agile</th>
-                    <th>EDF FreePhase</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="timelineBody">
-                <tr><td colspan="5" style="text-align:center; padding: 2rem;">Loading timeline data...</td></tr>
-            </tbody>
-        </table>
+    <!-- Interactive Line Chart -->
+    <div class="chart-container">
+        <div class="chart-header">📊 24-Hour Price Trajectory (p/kWh)</div>
+        <canvas id="tariffChart"></canvas>
+    </div>
+
+    <!-- Separated Tables -->
+    <div class="tables-grid">
+        
+        <!-- Octopus Agile Table -->
+        <div class="table-card">
+            <div class="table-header agile">
+                <span>🐙 Octopus Agile</span>
+                <span style="font-weight: 400; font-size: 0.85rem;">Dynamic Wholesale Pricing</span>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time Slot</th>
+                            <th>Unit Rate (p)</th>
+                            <th>Pricing Tier</th>
+                        </tr>
+                    </thead>
+                    <tbody id="agileTableBody">
+                        <tr><td colspan="3" style="text-align:center;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- EDF FreePhase Table -->
+        <div class="table-card">
+            <div class="table-header edf">
+                <span>⚡ EDF FreePhase</span>
+                <span style="font-weight: 400; font-size: 0.85rem;">Dynamic Structural Bands</span>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time Slot</th>
+                            <th>Unit Rate (p)</th>
+                            <th>Structural Band</th>
+                        </tr>
+                    </thead>
+                    <tbody id="edfTableBody">
+                        <tr><td colspan="3" style="text-align:center;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <script>
     let gridData = null;
+    let tariffChart = null;
 
     async function loadData() {
         try {
             const res = await fetch('data/grid_status.json');
             gridData = await res.json();
             
-            // Populate Header & Carbon
             document.getElementById('lastUpdated').innerText = `Updated: ${new Date(gridData.last_updated).toLocaleString()}`;
             document.getElementById('carbonVal').innerText = gridData.carbon_intensity || '0';
 
-            // Populate DNO Dropdown
             const select = document.getElementById('dnoSelect');
             select.innerHTML = '';
             for (const [key, region] of Object.entries(gridData.dno_regions)) {
@@ -199,12 +283,12 @@
                 select.appendChild(opt);
             }
 
-            // Restore saved preference or default to first
             const savedRegion = localStorage.getItem('selected_dno');
             if (savedRegion && gridData.dno_regions[savedRegion]) {
                 select.value = savedRegion;
             }
 
+            initChart();
             updateDashboard();
         } catch (e) {
             console.error("Error loading JSON:", e);
@@ -212,26 +296,77 @@
         }
     }
 
+    function initChart() {
+        const ctx = document.getElementById('tariffChart').getContext('2d');
+        tariffChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Octopus Agile (p/kWh)',
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 2,
+                        fill: true,
+                        data: []
+                    },
+                    {
+                        label: 'EDF FreePhase (p/kWh)',
+                        borderColor: '#a855f7',
+                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        pointRadius: 2,
+                        fill: true,
+                        data: []
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#94a3b8', maxTicksLimit: 12 }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#94a3b8' },
+                        title: { display: true, text: 'Pence per kWh', color: '#94a3b8' }
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#f8fafc' } },
+                    tooltip: { mode: 'index', intersect: false }
+                }
+            }
+        });
+    }
+
     function updateDashboard() {
         if (!gridData) return;
-        
+
         const regionKey = document.getElementById('dnoSelect').value;
         localStorage.setItem('selected_dno', regionKey);
 
         const timeline = gridData.half_hourly_timeline || [];
         if (timeline.length === 0) return;
 
-        // Current Slot (Slot 0)
+        // Current Rates
         const currentSlot = timeline[0];
         const currentPricing = currentSlot.regional_pricing[regionKey] || {};
 
-        const currentAgile = currentPricing.agile_price !== null ? currentPricing.agile_price.toFixed(2) : '--';
-        const currentEdf = currentPricing.edf_price !== null ? currentPricing.edf_price.toFixed(2) : '--';
+        const agileVal = currentPricing.agile_price !== null ? currentPricing.agile_price.toFixed(2) : '--';
+        const edfVal = currentPricing.edf_price !== null ? currentPricing.edf_price.toFixed(2) : '--';
 
-        document.getElementById('agileVal').innerText = `${currentAgile}`;
-        document.getElementById('edfVal').innerText = `${currentEdf}`;
+        document.getElementById('agileVal').innerText = `${agileVal}`;
+        document.getElementById('edfVal').innerText = `${edfVal}`;
 
-        // Find Next Free Slot
+        // Next Free Slot Logic
         let nextFreeTime = null;
         for (const slot of timeline) {
             const p = slot.regional_pricing[regionKey];
@@ -241,75 +376,83 @@
             }
         }
 
+        const freeValElem = document.getElementById('freeSlotVal');
         if (currentPricing.is_free_moment) {
-            document.getElementById('freeSlotVal').innerText = "FREE NOW";
-            document.getElementById('freeSlotVal').style.color = "var(--purple)";
+            freeValElem.innerText = "FREE NOW";
+            freeValElem.style.color = "var(--edf-color)";
         } else if (nextFreeTime) {
-            document.getElementById('freeSlotVal').innerText = nextFreeTime;
-            document.getElementById('freeSlotVal').style.color = "var(--text)";
+            freeValElem.innerText = nextFreeTime;
+            freeValElem.style.color = "var(--text)";
         } else {
-            document.getElementById('freeSlotVal').innerText = "None Scheduled";
-            document.getElementById('freeSlotVal').style.color = "var(--text-muted)";
+            freeValElem.innerText = "None Scheduled";
+            freeValElem.style.color = "var(--text-muted)";
         }
 
-        // Build Table
-        const tbody = document.getElementById('timelineBody');
-        tbody.innerHTML = '';
+        // Update Chart
+        const labels = timeline.map(s => s.display_time);
+        const agileData = timeline.map(s => s.regional_pricing[regionKey]?.agile_price ?? null);
+        const edfData = timeline.map(s => s.regional_pricing[regionKey]?.edf_price ?? null);
 
+        tariffChart.data.labels = labels;
+        tariffChart.data.datasets[0].data = agileData;
+        tariffChart.data.datasets[1].data = edfData;
+        tariffChart.update();
+
+        // Populate Octopus Agile Table
+        const agileTbody = document.getElementById('agileTableBody');
+        agileTbody.innerHTML = '';
         timeline.forEach(slot => {
-            const pricing = slot.regional_pricing[regionKey] || {};
-            const agile = pricing.agile_price;
-            const edf = pricing.edf_price;
-            const isFree = pricing.is_free_moment;
-
+            const price = slot.regional_pricing[regionKey]?.agile_price;
             const tr = document.createElement('tr');
 
-            // Time Column
-            const tdTime = document.createElement('td');
-            tdTime.innerText = slot.display_time;
+            let rateText = '--';
+            let tierBadge = '<span class="badge badge-amber">Standard</span>';
 
-            // Band Column
-            const tdBand = document.createElement('td');
-            let badgeClass = 'badge-amber';
-            if (slot.band_code === 'GREEN') badgeClass = 'badge-green';
-            if (slot.band_code === 'RED') badgeClass = 'badge-red';
-            tdBand.innerHTML = `<span class="badge ${badgeClass}">${slot.band_name}</span>`;
-
-            // Agile Column
-            const tdAgile = document.createElement('td');
-            if (agile !== null && agile !== undefined) {
-                tdAgile.innerText = `${agile.toFixed(2)} p`;
-                if (agile < 0) tdAgile.className = 'price-negative';
-            } else {
-                tdAgile.innerText = '--';
+            if (price !== null && price !== undefined) {
+                rateText = `${price.toFixed(2)} p`;
+                if (price < 0) {
+                    tierBadge = '<span class="badge badge-green">Plunge Pricing</span>';
+                } else if (price > 35) {
+                    tierBadge = '<span class="badge badge-red">Peak Rate</span>';
+                } else if (price < 12) {
+                    tierBadge = '<span class="badge badge-green">Low Cost</span>';
+                }
             }
 
-            // EDF Column
-            const tdEdf = document.createElement('td');
-            if (edf !== null && edf !== undefined) {
-                tdEdf.innerText = `${edf.toFixed(2)} p`;
-                if (isFree) tdEdf.className = 'price-free';
-            } else {
-                tdEdf.innerText = '--';
+            tr.innerHTML = `
+                <td>${slot.display_time}</td>
+                <td class="${price < 0 ? 'price-negative' : (price > 35 ? 'price-high' : '')}">${rateText}</td>
+                <td>${tierBadge}</td>
+            `;
+            agileTbody.appendChild(tr);
+        });
+
+        // Populate EDF FreePhase Table
+        const edfTbody = document.getElementById('edfTableBody');
+        edfTbody.innerHTML = '';
+        timeline.forEach(slot => {
+            const pricing = slot.regional_pricing[regionKey] || {};
+            const price = pricing.edf_price;
+            const isFree = pricing.is_free_moment;
+            const tr = document.createElement('tr');
+
+            let rateText = '--';
+            let bandBadge = `<span class="badge ${slot.band_code === 'GREEN' ? 'badge-green' : (slot.band_code === 'RED' ? 'badge-red' : 'badge-amber')}">${slot.band_name}</span>`;
+
+            if (price !== null && price !== undefined) {
+                rateText = `${price.toFixed(2)} p`;
             }
 
-            // Status Column
-            const tdStatus = document.createElement('td');
             if (isFree) {
-                tdStatus.innerHTML = `<span class="badge badge-free">FREE MOMENT</span>`;
-            } else if (agile !== null && agile < 0) {
-                tdStatus.innerHTML = `<span class="badge badge-green">PLUNGE PRICING</span>`;
-            } else {
-                tdStatus.innerText = '-';
+                bandBadge = `<span class="badge badge-free">FREE MOMENT</span>`;
             }
 
-            tr.appendChild(tdTime);
-            tr.appendChild(tdBand);
-            tr.appendChild(tdAgile);
-            tr.appendChild(tdEdf);
-            tr.appendChild(tdStatus);
-
-            tbody.appendChild(tr);
+            tr.innerHTML = `
+                <td>${slot.display_time}</td>
+                <td class="${isFree ? 'price-free' : ''}">${rateText}</td>
+                <td>${bandBadge}</td>
+            `;
+            edfTbody.appendChild(tr);
         });
     }
 
