@@ -63,38 +63,40 @@ def fetch_edf_region(dict_key, kraken_code):
     return dict_key, rates
 
 def fetch_live_grid():
-    """Fetch live national grid power generation breakdown and carbon intensity."""
+    """Fetch actual real-time MW generation by fuel type from Elexon BMRS."""
+    url = "https://bmrs.elexon.co.uk/api/v1/generation/actual/per-type"
     fuel_mw = {}
     total_mw = 0.0
     renewable_mw = 0.0
 
-    # 1. Fetch live fuel generation mix from Carbon Intensity API
     try:
-        res = requests.get("https://api.carbonintensity.org.uk/generation", timeout=10).json()
-        mix = res["data"]["generationmix"]
-        
-        # Approximate GB total demand load (~28 GW base)
-        est_grid_load = 28000.0
-        
-        for item in mix:
-            fuel_name = item["fuel"].capitalize()
-            perc = item["perc"]
-            mw = round((perc / 100.0) * est_grid_load, 0)
-            fuel_mw[fuel_name] = mw
-            total_mw += mw
-            if item["fuel"] in ["wind", "solar", "biomass", "hydro"]:
-                renewable_mw += mw
+        resp = requests.get(url, timeout=10)
+        if resp.status_code == 200:
+            data = resp.json().get("data", [])
+            for entry in data:
+                fuel = entry.get("psrType", "Other").strip()
+                mw = float(entry.get("quantity", 0))
+                
+                # Exclude negative interconnector pump flows from generation baseline
+                mw_val = max(0.0, round(mw, 1))
+                
+                fuel_mw[fuel] = mw_val
+                total_mw += mw_val
+                
+                if fuel.lower() in ["wind", "solar", "biomass", "hydro"]:
+                    renewable_mw += mw_val
+                    
     except Exception as e:
-        print(f"Error fetching generation mix: {e}")
+        print(f"Elexon real-time grid fetch error: {e}")
 
+    total_mw = round(total_mw, 0)
     renewable_pct = round((renewable_mw / total_mw * 100), 1) if total_mw > 0 else 0.0
 
     return {
-        "total_mw": round(total_mw, 0) if total_mw > 0 else 25000,
+        "total_mw": total_mw,
         "renewable_pct": renewable_pct,
         "fuel_breakdown": fuel_mw
     }
-
 def fetch_carbon_intensity():
     """Fetch national average carbon intensity (gCO2/kWh)."""
     try:
