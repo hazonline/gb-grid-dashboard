@@ -43,7 +43,9 @@
         }
 
         h1 { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
-        .last-updated { font-size: 0.85rem; color: var(--text-muted); }
+        .clock-box { text-align: right; }
+        .live-clock { font-size: 1.1rem; font-weight: 700; color: var(--agile-color); font-mono: monospace; }
+        .last-updated { font-size: 0.8rem; color: var(--text-muted); }
 
         .controls {
             background: var(--card-bg);
@@ -53,10 +55,12 @@
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 1rem;
             flex-wrap: wrap;
         }
 
+        .control-group { display: flex; align-items: center; gap: 0.75rem; flex-grow: 1; }
         label { font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
         select {
             background: var(--bg);
@@ -67,20 +71,20 @@
             font-size: 0.95rem;
             outline: none;
             cursor: pointer;
-            flex-grow: 1;
-            max-width: 400px;
+            min-width: 280px;
         }
 
         .svt-banner {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.4rem 0.8rem;
-            border-radius: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
             border: 1px solid var(--border);
         }
 
-        /* Top Metric Cards */
+        /* Metric Cards */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -100,9 +104,9 @@
 
         .card-label { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; }
         .card-value { font-size: 1.75rem; font-weight: 700; }
-        .card-sub { font-size: 0.8rem; color: var(--text-muted); }
+        .card-sub { font-size: 0.85rem; font-weight: 600; }
 
-        /* Chart Section */
+        /* Chart */
         .chart-container {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -117,13 +121,12 @@
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 1rem;
-            color: var(--text);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        /* Side-by-Side Tables Layout */
+        /* Tables */
         .tables-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
@@ -165,18 +168,14 @@
 
         .badge {
             display: inline-block;
-            padding: 0.2rem 0.5rem;
+            padding: 0.2rem 0.55rem;
             border-radius: 0.25rem;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
         }
-        .badge-green { background: rgba(34, 197, 94, 0.2); color: var(--green); }
-        .badge-amber { background: rgba(245, 158, 11, 0.2); color: var(--amber); }
-        .badge-red { background: rgba(239, 68, 68, 0.2); color: var(--red); }
-        .badge-free { background: var(--edf-color); color: #fff; font-weight: 700; }
-
-        .var-cheaper { color: var(--green); font-weight: 600; }
-        .var-dearer { color: var(--red); font-weight: 600; }
+        .badge-free { background: var(--edf-color); color: #fff; }
+        .var-cheaper { color: var(--green); }
+        .var-dearer { color: var(--red); }
     </style>
 </head>
 <body>
@@ -184,15 +183,20 @@
 <div class="container">
     <header>
         <h1>⚡ GB Tariff Intelligence</h1>
-        <div class="last-updated" id="lastUpdated">Loading...</div>
+        <div class="clock-box">
+            <div class="live-clock" id="ukClock">--:--:-- UK</div>
+            <div class="last-updated" id="lastUpdated">Data loading...</div>
+        </div>
     </header>
 
     <div class="controls">
-        <label for="dnoSelect">DNO Region:</label>
-        <select id="dnoSelect" onchange="updateDashboard()">
-            <option value="">Loading regions...</option>
-        </select>
-        <div class="svt-banner" id="svtDisplay">Regional SVT Baseline: -- p/kWh</div>
+        <div class="control-group">
+            <label for="dnoSelect">DNO Region:</label>
+            <select id="dnoSelect" onchange="updateDashboard()">
+                <option value="">Loading regions...</option>
+            </select>
+        </div>
+        <div class="svt-banner" id="svtDisplay">SVT Baseline: -- p/kWh</div>
     </div>
 
     <!-- Summary Metrics -->
@@ -200,7 +204,7 @@
         <div class="card">
             <span class="card-label">Carbon Intensity</span>
             <span class="card-value" id="carbonVal">--</span>
-            <span class="card-sub">gCO₂ / kWh</span>
+            <span class="card-sub" style="color: var(--text-muted);">gCO₂ / kWh</span>
         </div>
         <div class="card">
             <span class="card-label">Current Agile Rate</span>
@@ -208,42 +212,42 @@
             <span class="card-sub" id="agileSvtDiff">-- vs SVT</span>
         </div>
         <div class="card">
-            <span class="card-label">Current FreePhase Rate</span>
+            <span class="card-label">Current EDF FreePhase</span>
             <span class="card-value" id="edfVal" style="color: var(--edf-color);">--</span>
             <span class="card-sub" id="edfSvtDiff">-- vs SVT</span>
         </div>
         <div class="card">
             <span class="card-label">Next Free Window</span>
             <span class="card-value" id="freeSlotVal">--</span>
-            <span class="card-sub">EDF Free Phase (UK Time)</span>
+            <span class="card-sub" style="color: var(--text-muted);">EDF Dynamic Window</span>
         </div>
     </div>
 
     <!-- Interactive Line Chart -->
     <div class="chart-container">
         <div class="chart-header">
-            <span>📊 24-Hour Price Trajectory (UK Local Time)</span>
-            <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">Solid line = Unit Rate | Dashed line = SVT Benchmark</span>
+            <span>📊 24-Hour Price Trajectory (UK Clock Time)</span>
+            <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">Solid = Dynamic Rates | Dashed = Regional SVT Baseline</span>
         </div>
         <canvas id="tariffChart"></canvas>
     </div>
 
-    <!-- Separated Tables -->
+    <!-- Tables Grid -->
     <div class="tables-grid">
         
         <!-- Octopus Agile Table -->
         <div class="table-card">
             <div class="table-header agile">
                 <span>🐙 Octopus Agile</span>
-                <span style="font-weight: 400; font-size: 0.85rem;">Half-Hourly Dynamic Wholesale</span>
+                <span style="font-weight: 400; font-size: 0.85rem;">Half-Hourly Dynamic Pricing</span>
             </div>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
                             <th>UK Time Slot</th>
-                            <th>Unit Rate (p)</th>
-                            <th>vs Regional SVT</th>
+                            <th>Unit Rate</th>
+                            <th>vs Regional SVT Benchmark</th>
                         </tr>
                     </thead>
                     <tbody id="agileTableBody">
@@ -257,15 +261,15 @@
         <div class="table-card">
             <div class="table-header edf">
                 <span>⚡ EDF FreePhase</span>
-                <span style="font-weight: 400; font-size: 0.85rem;">Grouped Time Windows</span>
+                <span style="font-weight: 400; font-size: 0.85rem;">Stacked Structural Windows</span>
             </div>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
                             <th>Time Window (UK)</th>
-                            <th>Unit Rate (p)</th>
-                            <th>vs Regional SVT</th>
+                            <th>Unit Rate</th>
+                            <th>vs Regional SVT Benchmark</th>
                         </tr>
                     </thead>
                     <tbody id="edfTableBody">
@@ -282,7 +286,16 @@
     let gridData = null;
     let tariffChart = null;
 
-    // Helper: Formats ISO timestamp directly to UK Local Time (GMT/BST) string "HH:MM"
+    // Live UK Clock
+    function updateUKClock() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('en-GB', { timeZone: 'Europe/London' });
+        document.getElementById('ukClock').innerText = `${timeStr} UK`;
+    }
+    setInterval(updateUKClock, 1000);
+    updateUKClock();
+
+    // Helper: Safely converts ISO timestamp to UK Local Time (GMT/BST) HH:MM
     function formatUKTime(isoString) {
         if (!isoString) return '--:--';
         const date = new Date(isoString);
@@ -298,7 +311,8 @@
             const res = await fetch('data/grid_status.json');
             gridData = await res.json();
             
-            document.getElementById('lastUpdated').innerText = `Updated: ${new Date(gridData.last_updated).toLocaleString('en-GB', { timeZone: 'Europe/London' })}`;
+            const updatedDate = new Date(gridData.last_updated);
+            document.getElementById('lastUpdated').innerText = `Updated: ${updatedDate.toLocaleTimeString('en-GB', { timeZone: 'Europe/London' })}`;
             document.getElementById('carbonVal').innerText = gridData.carbon_intensity || '0';
 
             const select = document.getElementById('dnoSelect');
@@ -319,7 +333,7 @@
             updateDashboard();
         } catch (e) {
             console.error("Error loading JSON:", e);
-            document.getElementById('lastUpdated').innerText = "Failed to load data";
+            document.getElementById('lastUpdated').innerText = "Failed to load grid_status.json";
         }
     }
 
@@ -390,36 +404,40 @@
         localStorage.setItem('selected_dno', regionKey);
 
         const regionInfo = gridData.dno_regions[regionKey] || {};
-        const svtRate = regionInfo.svt_rate || 24.50; // Fallback to current national avg standard variable rate if not set
+        const svtRate = regionInfo.svt_rate;
 
-        document.getElementById('svtDisplay').innerText = `Regional SVT Baseline: ${svtRate.toFixed(2)} p/kWh`;
+        if (svtRate !== null && svtRate !== undefined) {
+            document.getElementById('svtDisplay').innerText = `SVT Baseline (${regionKey}): ${svtRate.toFixed(2)} p/kWh`;
+        } else {
+            document.getElementById('svtDisplay').innerText = `SVT Baseline (${regionKey}): Unavailable`;
+        }
 
         const timeline = gridData.half_hourly_timeline || [];
         if (timeline.length === 0) return;
 
-        // Current Slot Metrics
+        // Metric Cards - Current Slot
         const currentSlot = timeline[0];
         const currentPricing = currentSlot.regional_pricing[regionKey] || {};
 
-        const agileVal = currentPricing.agile_price !== null ? currentPricing.agile_price : null;
-        const edfVal = currentPricing.edf_price !== null ? currentPricing.edf_price : null;
+        const agileVal = currentPricing.agile_price ?? null;
+        const edfVal = currentPricing.edf_price ?? null;
 
         document.getElementById('agileVal').innerText = agileVal !== null ? `${agileVal.toFixed(2)}p` : '--';
         document.getElementById('edfVal').innerText = edfVal !== null ? `${edfVal.toFixed(2)}p` : '--';
 
-        if (agileVal !== null) {
+        if (agileVal !== null && svtRate) {
             const diff = agileVal - svtRate;
             document.getElementById('agileSvtDiff').innerText = `${diff <= 0 ? '' : '+'}${diff.toFixed(2)}p vs SVT`;
             document.getElementById('agileSvtDiff').className = `card-sub ${diff <= 0 ? 'var-cheaper' : 'var-dearer'}`;
         }
 
-        if (edfVal !== null) {
+        if (edfVal !== null && svtRate) {
             const diff = edfVal - svtRate;
             document.getElementById('edfSvtDiff').innerText = edfVal === 0 ? 'FREE WINDOW' : `${diff <= 0 ? '' : '+'}${diff.toFixed(2)}p vs SVT`;
             document.getElementById('edfSvtDiff').className = `card-sub ${diff <= 0 ? 'var-cheaper' : 'var-dearer'}`;
         }
 
-        // Next Free Slot Logic
+        // Next Free Window Logic
         let nextFreeTime = null;
         for (const slot of timeline) {
             const p = slot.regional_pricing[regionKey];
@@ -441,11 +459,11 @@
             freeValElem.style.color = "var(--text-muted)";
         }
 
-        // Chart Data Update (Local UK Times)
+        // Update Chart
         const labels = timeline.map(s => formatUKTime(s.valid_from));
         const agileData = timeline.map(s => s.regional_pricing[regionKey]?.agile_price ?? null);
         const edfData = timeline.map(s => s.regional_pricing[regionKey]?.edf_price ?? null);
-        const svtData = timeline.map(() => svtRate);
+        const svtData = timeline.map(() => svtRate ?? null);
 
         tariffChart.data.labels = labels;
         tariffChart.data.datasets[0].data = agileData;
@@ -453,7 +471,7 @@
         tariffChart.data.datasets[2].data = svtData;
         tariffChart.update();
 
-        // 1. Render Octopus Agile (Half-Hourly Dynamic Pricing vs SVT)
+        // 1. Render Octopus Agile (Raw Half-Hourly Rates vs SVT)
         const agileTbody = document.getElementById('agileTableBody');
         agileTbody.innerHTML = '';
         timeline.forEach(slot => {
@@ -467,15 +485,18 @@
 
             if (price !== null && price !== undefined) {
                 rateText = `${price.toFixed(2)} p`;
-                const diff = price - svtRate;
-                if (diff < 0) {
-                    varText = `${diff.toFixed(2)} p (${Math.abs((diff/svtRate)*100).toFixed(0)}% cheaper)`;
-                    varClass = 'var-cheaper';
-                } else if (diff > 0) {
-                    varText = `+${diff.toFixed(2)} p (${Math.abs((diff/svtRate)*100).toFixed(0)}% dearer)`;
-                    varClass = 'var-dearer';
-                } else {
-                    varText = 'Same as SVT';
+                if (svtRate) {
+                    const diff = price - svtRate;
+                    const pct = Math.abs((diff / svtRate) * 100).toFixed(0);
+                    if (diff < 0) {
+                        varText = `${diff.toFixed(2)} p (${pct}% below SVT)`;
+                        varClass = 'var-cheaper';
+                    } else if (diff > 0) {
+                        varText = `+${diff.toFixed(2)} p (${pct}% above SVT)`;
+                        varClass = 'var-dearer';
+                    } else {
+                        varText = 'Same as SVT';
+                    }
                 }
             }
 
@@ -487,11 +508,10 @@
             agileTbody.appendChild(tr);
         });
 
-        // 2. Render EDF FreePhase (Grouped Stacked Windows)
+        // 2. Render EDF FreePhase (Grouped Stacked Time Windows)
         const edfTbody = document.getElementById('edfTableBody');
         edfTbody.innerHTML = '';
 
-        // Group consecutive slots with identical EDF rates / structural status
         const groupedEdf = [];
         let currentBlock = null;
 
@@ -521,7 +541,6 @@
         });
         if (currentBlock) groupedEdf.push(currentBlock);
 
-        // Render Stacked Grouped Windows
         groupedEdf.forEach(block => {
             const tr = document.createElement('tr');
             const windowStr = `${formatUKTime(block.startTime)} - ${formatUKTime(block.endTime)}`;
@@ -536,15 +555,18 @@
                 varClass = 'var-cheaper';
             } else if (block.price !== null) {
                 rateText = `${block.price.toFixed(2)} p`;
-                const diff = block.price - svtRate;
-                if (diff < 0) {
-                    varText = `${diff.toFixed(2)} p (${Math.abs((diff/svtRate)*100).toFixed(0)}% cheaper)`;
-                    varClass = 'var-cheaper';
-                } else if (diff > 0) {
-                    varText = `+${diff.toFixed(2)} p (${Math.abs((diff/svtRate)*100).toFixed(0)}% dearer)`;
-                    varClass = 'var-dearer';
-                } else {
-                    varText = 'Same as SVT';
+                if (svtRate) {
+                    const diff = block.price - svtRate;
+                    const pct = Math.abs((diff / svtRate) * 100).toFixed(0);
+                    if (diff < 0) {
+                        varText = `${diff.toFixed(2)} p (${pct}% below SVT)`;
+                        varClass = 'var-cheaper';
+                    } else if (diff > 0) {
+                        varText = `+${diff.toFixed(2)} p (${pct}% above SVT)`;
+                        varClass = 'var-dearer';
+                    } else {
+                        varText = 'Same as SVT';
+                    }
                 }
             }
 
