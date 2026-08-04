@@ -44,7 +44,7 @@
 
         h1 { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
         .clock-box { text-align: right; }
-        .live-clock { font-size: 1.1rem; font-weight: 700; color: var(--agile-color); font-mono: monospace; }
+        .live-clock { font-size: 1.1rem; font-weight: 700; color: var(--agile-color); font-family: monospace; }
         .last-updated { font-size: 0.8rem; color: var(--text-muted); }
 
         .controls {
@@ -295,10 +295,11 @@
     setInterval(updateUKClock, 1000);
     updateUKClock();
 
-    // Helper: Safely converts ISO timestamp to UK Local Time (GMT/BST) HH:MM
+    // Safely converts ISO timestamp to UK Local Time (HH:MM)
     function formatUKTime(isoString) {
         if (!isoString) return '--:--';
         const date = new Date(isoString);
+        if (isNaN(date.getTime())) return '--:--';
         return date.toLocaleTimeString('en-GB', {
             hour: '2-digit',
             minute: '2-digit',
@@ -320,7 +321,9 @@
             for (const [key, region] of Object.entries(gridData.dno_regions)) {
                 const opt = document.createElement('option');
                 opt.value = key;
-                opt.innerText = `${region.name} (${key})`;
+                // Clean region name display without underscores
+                const cleanKey = key.replace('_', '');
+                opt.innerText = `${region.name} (${cleanKey})`;
                 select.appendChild(opt);
             }
 
@@ -406,10 +409,11 @@
         const regionInfo = gridData.dno_regions[regionKey] || {};
         const svtRate = regionInfo.svt_rate;
 
+        const cleanKey = regionKey.replace('_', '');
         if (svtRate !== null && svtRate !== undefined) {
-            document.getElementById('svtDisplay').innerText = `SVT Baseline (${regionKey}): ${svtRate.toFixed(2)} p/kWh`;
+            document.getElementById('svtDisplay').innerText = `SVT Baseline (${cleanKey}): ${svtRate.toFixed(2)} p/kWh`;
         } else {
-            document.getElementById('svtDisplay').innerText = `SVT Baseline (${regionKey}): Unavailable`;
+            document.getElementById('svtDisplay').innerText = `SVT Baseline (${cleanKey}): Unavailable`;
         }
 
         const timeline = gridData.half_hourly_timeline || [];
@@ -451,7 +455,7 @@
         if (currentPricing.is_free_moment || currentPricing.edf_price === 0) {
             freeValElem.innerText = "FREE NOW";
             freeValElem.style.color = "var(--edf-color)";
-        } else if (nextFreeTime) {
+        } else if (nextFreeTime && nextFreeTime !== '--:--') {
             freeValElem.innerText = nextFreeTime;
             freeValElem.style.color = "var(--text)";
         } else {
@@ -471,7 +475,7 @@
         tariffChart.data.datasets[2].data = svtData;
         tariffChart.update();
 
-        // 1. Render Octopus Agile (Raw Half-Hourly Rates vs SVT)
+        // Render Octopus Agile Table
         const agileTbody = document.getElementById('agileTableBody');
         agileTbody.innerHTML = '';
         timeline.forEach(slot => {
@@ -508,7 +512,7 @@
             agileTbody.appendChild(tr);
         });
 
-        // 2. Render EDF FreePhase (Grouped Stacked Time Windows)
+        // Render EDF FreePhase Table (Grouped Windows)
         const edfTbody = document.getElementById('edfTableBody');
         edfTbody.innerHTML = '';
 
