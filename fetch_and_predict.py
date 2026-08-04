@@ -37,11 +37,11 @@ def fetch_live_grid_data():
     }
 
     try:
-        url = "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST/stream"
+        # Use standard REST API endpoint instead of /stream
+        url = "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST"
         res = requests.get(url, timeout=10).json()
         data_items = res if isinstance(res, list) else res.get("data", [])
         
-        # Take the most recent snapshot per fuel type
         latest_by_fuel = {}
         for item in data_items:
             fuel = item.get("fuelType", "").upper()
@@ -57,10 +57,10 @@ def fetch_live_grid_data():
                 renewable_mw += mw
 
     except Exception as e:
-        print(f"Elexon stream error: {e}")
+        print(f"Elexon API error: {e}")
 
-    # Fallback to Carbon Intensity API if stream fails
-    if total_mw < 5000: # Typical UK grid minimum is > 12,000 MW
+    # Fallback to Carbon Intensity API if stream/fetch fails or yields tiny values
+    if total_mw < 5000:
         try:
             res = requests.get("https://api.carbonintensity.org.uk/generation", timeout=10).json()
             mix = res["data"]["generationmix"]
@@ -108,43 +108,35 @@ def fetch_octopus_agile_regional():
     return regional_agile
 
 def process_half_hourly_timeline(regional_agile):
-    """
-    Build 48 half-hour settlement slots for today/tomorrow.
-    Calculates flat daily Green/Amber/Red bands for EDF FreePhase.
-    """
     now = datetime.now(timezone.utc)
     start_time = now.replace(minute=0 if now.minute < 30 else 30, second=0, microsecond=0)
     
     half_hours = []
 
-    # Weather forecast for renewable production estimate
     try:
         w_res = requests.get(
             "https://api.open-meteo.com/v1/forecast?latitude=54.0&longitude=-2.0&hourly=windspeed_10m,direct_normal_irradiance&forecast_days=2",
             timeout=10
         ).json()
-        w_times = w_res["hourly"]["time"]
-        w_wind = w_res["hourly"]["windspeed_10m"]
-        w_solar = w_res["hourly"]["direct_normal_irradiance"]
+        w_times = w_res.get("hourly", {}).get("time", [])
+        w_wind = w_res.get("hourly", {}).get("windspeed_10m", [])
+        w_solar = w_res.get("hourly", {}).get("direct_normal_irradiance", [])
     except Exception:
         w_times, w_wind, w_solar = [], [], []
 
-    # Step 1: Pre-generate raw Agile curve to derive EDF daily band averages
     raw_agile_points = []
     for i in range(48):
         slot_dt = start_time + timedelta(minutes=30 * i)
         iso_key = slot_dt.strftime("%Y-%m-%dT%H:%M:00Z")
         hour = slot_dt.hour
 
-        # Base regional price reference (_A)
         official_val = regional_agile.get("_A", {}).get(iso_key)
         if official_val is not None:
             price = official_val
         else:
-            # Synthetic prediction model
             w_idx = min(len(w_times)-1, int(i / 2)) if w_times else 0
-            wind_speed = w_wind[w_idx] if w_wind else 15
-            solar_irrad = w_solar[w_idx] if w_solar else 0
+            wind_speed = w_wind[w_idx] if w_wind and w_idx < len(w_wind) else 15
+            solar_irrad = w_solar[w_idx] if w_solar and w_idx < len(w_solar) else 0
             
             demand_gw = 20.0 + (10.0 if 7 <= hour <= 22 else 0)
             renew_gw = min(18.0, (wind_speed / 35.0)**3 * 14.0 + (solar_irrad / 800.0) * 8.0)
@@ -153,7 +145,7 @@ def process_half_hourly_timeline(regional_agile):
 
         raw_agile_points.append({"dt": slot_dt, "price": price, "hour": hour})
 
-    # Step 2: Calculate Flat Daily FreePhase Band Rates (Green, Amber, Red)
+    # FreePhase daily band averages based on Agile curve
     green_prices = [p["price"] for p in raw_agile_points if p["hour"] >= 23 or p["hour"] < 6]
     red_prices = [p["price"] for p in raw_agile_points if 16 <= p["hour"] < 19]
     amber_prices = [p["price"] for p in raw_agile_points if (6 <= p["hour"] < 16) or (19 <= p["hour"] < 23)]
@@ -162,14 +154,12 @@ def process_half_hourly_timeline(regional_agile):
     edf_amber_flat = round(max(18.0, (sum(amber_prices)/len(amber_prices)) * 0.90) if amber_prices else 20.0, 2)
     edf_red_flat = round(max(34.0, (sum(red_prices)/len(red_prices)) * 1.25) if red_prices else 38.0, 2)
 
-    # Step 3: Populate 48 Half-Hourly Items for all regions
     for pt in raw_agile_points:
         dt = pt["dt"]
         hour = pt["hour"]
         iso_key = dt.strftime("%Y-%m-%dT%H:%M:00Z")
         display_time = dt.strftime("%H:%M")
 
-        # FreePhase Band Classification
         if 23 <= hour or hour < 6:
             band_name, band_code, base_edf = "Green", "GREEN", edf_green_flat
         elif 16 <= hour < 19:
@@ -183,7 +173,6 @@ def process_half_hourly_timeline(regional_agile):
             if reg_agile is None:
                 reg_agile = round((pt["price"] * info["multiplier"]) + info["offset"], 2)
             
-            # Check for Free Moment
             is_free = reg_agile <= 0.0
             reg_edf = 0.0 if is_free else round((base_edf * info["multiplier"]) + info["offset"], 2)
 
@@ -218,10 +207,11 @@ def main():
         "half_hourly_timeline": timeline
     }
 
-    with open("data/grid_status.json", "w") as f:
+    output_path = os.path.join("data", "grid_status.json")
+    with open(output_path, "w") as f:
         json.dump(payload, f, indent=2)
 
-    print("Data refreshed successfully.")
+    print(f"Data refreshed successfully. Saved to {output_path}")
 
 if __name__ == "__main__":
     main()
