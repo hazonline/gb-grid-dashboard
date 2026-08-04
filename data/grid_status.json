@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-04T22:22:05.452500+00:00",
+  "last_updated": "2026-08-04T22:33:06.358405+00:00",
   "dno_regions": {
     "_A": {
       "name": "A - Eastern England"
@@ -46,84 +46,6 @@
   },
   "carbon_intensity": 126,
   "half_hourly_timeline": [
-    {
-      "iso_timestamp": "2026-08-04T22:00:00+00:00",
-      "display_time": "22:00",
-      "band_name": "Amber (Standard)",
-      "band_code": "AMBER",
-      "regional_pricing": {
-        "_A": {
-          "agile_price": 24.17,
-          "edf_price": 23.4,
-          "is_free_moment": false
-        },
-        "_B": {
-          "agile_price": 22.85,
-          "edf_price": 23.4,
-          "is_free_moment": false
-        },
-        "_C": {
-          "agile_price": 22.85,
-          "edf_price": 24.71,
-          "is_free_moment": false
-        },
-        "_D": {
-          "agile_price": 25.48,
-          "edf_price": 24.97,
-          "is_free_moment": false
-        },
-        "_E": {
-          "agile_price": 24.17,
-          "edf_price": 23.14,
-          "is_free_moment": false
-        },
-        "_F": {
-          "agile_price": 24.17,
-          "edf_price": 23.14,
-          "is_free_moment": false
-        },
-        "_G": {
-          "agile_price": 24.17,
-          "edf_price": 23.79,
-          "is_free_moment": false
-        },
-        "_H": {
-          "agile_price": 24.17,
-          "edf_price": 23.79,
-          "is_free_moment": false
-        },
-        "_J": {
-          "agile_price": 25.48,
-          "edf_price": 22.87,
-          "is_free_moment": false
-        },
-        "_K": {
-          "agile_price": 25.48,
-          "edf_price": 23.79,
-          "is_free_moment": false
-        },
-        "_L": {
-          "agile_price": 26.8,
-          "edf_price": 22.87,
-          "is_free_moment": false
-        },
-        "_M": {
-          "agile_price": 22.85,
-          "edf_price": 23.27,
-          "is_free_moment": false
-        },
-        "_N": {
-          "agile_price": 24.17,
-          "edf_price": 23.4,
-          "is_free_moment": false
-        },
-        "_P": {
-          "agile_price": 28.12,
-          "edf_price": 25.37,
-          "is_free_moment": false
-        }
-      }
-    },
     {
       "iso_timestamp": "2026-08-04T22:30:00+00:00",
       "display_time": "22:30",
@@ -3786,6 +3708,84 @@
         "_P": {
           "agile_price": 28.17,
           "edf_price": 12.72,
+          "is_free_moment": false
+        }
+      }
+    },
+    {
+      "iso_timestamp": "2026-08-05T22:00:00+00:00",
+      "display_time": "22:00",
+      "band_name": "Amber (Standard)",
+      "band_code": "AMBER",
+      "regional_pricing": {
+        "_A": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_B": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_C": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_D": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_E": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_F": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_G": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_H": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_J": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_K": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_L": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_M": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_N": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "_P": {
+          "agile_price": null,
+          "edf_price": null,
           "is_free_moment": false
         }
       }
