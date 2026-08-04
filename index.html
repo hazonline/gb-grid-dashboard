@@ -12,7 +12,7 @@
       --text-main: #f8fafc;
       --accent-green: #22c55e;
       --accent-blue: #38bdf8;
-      --accent-alert: #f59e0b;
+      --accent-amber: #f59e0b;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -21,14 +21,14 @@
       margin: 0;
       padding: 24px;
     }
-    .container { max-width: 1100px; margin: 0 auto; }
-    header { text-align: center; margin-bottom: 30px; }
-    header h1 { margin: 0 0 8px 0; font-size: 2.2rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 28px; }
+    header h1 { margin: 0 0 8px 0; font-size: 2rem; }
     .badge { font-size: 0.85rem; color: #94a3b8; }
     
     .grid-stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 16px;
       margin-bottom: 24px;
     }
@@ -39,46 +39,41 @@
       text-align: center;
       border: 1px solid #334155;
     }
-    .stat-value { font-size: 2rem; font-weight: bold; margin: 8px 0; color: var(--accent-green); }
+    .stat-value { font-size: 1.8rem; font-weight: bold; margin: 6px 0; color: var(--accent-green); }
     
     .dashboard-panel {
       background: var(--card-bg);
       border-radius: 12px;
-      padding: 24px;
+      padding: 20px;
       margin-bottom: 24px;
       border: 1px solid #334155;
     }
-    .predictions-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 16px;
-    }
-    .predictions-table th, .predictions-table td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #334155;
-    }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #334155; font-size: 0.95rem; }
+    th { color: #94a3b8; }
     .tag {
       display: inline-block;
-      padding: 4px 8px;
+      padding: 3px 8px;
       border-radius: 6px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: bold;
     }
     .tag-free { background: #15803d; color: #fff; }
     .tag-normal { background: #334155; color: #94a3b8; }
+    .tag-official { background: #0284c7; color: #fff; margin-left: 6px; }
+    .tag-predicted { background: #475569; color: #cbd5e1; margin-left: 6px; }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>🇬🇧 GB Live Grid & Free Electricity Predictor</h1>
-      <div class="badge" id="last-updated">Loading live data...</div>
+      <div class="badge" id="last-updated">Loading live grid status...</div>
     </header>
 
     <div class="grid-stats">
       <div class="stat-card">
-        <div>Total Demand</div>
+        <div>Live Demand</div>
         <div class="stat-value" id="stat-total-mw">-- MW</div>
       </div>
       <div class="stat-card">
@@ -93,26 +88,24 @@
 
     <div class="dashboard-panel">
       <h2>Live Power Generation Breakdown</h2>
-      <canvas id="generationChart" height="100"></canvas>
+      <canvas id="generationChart" height="90"></canvas>
     </div>
 
     <div class="dashboard-panel">
-      <h2>⚡ Forecasted Free / Negative Price Opportunities</h2>
-      <p style="color: #94a3b8; font-size: 0.9rem;">
-        Predicted hours where Octopus Agile may hit 0p/negative rates and EDF FreePhase zero-rate triggers may activate.
+      <h2>⚡ Forecasted Octopus Agile & FreePhase Opportunities</h2>
+      <p style="color: #94a3b8; font-size: 0.88rem;">
+        Upcoming hours showing official Octopus rates or predicted zero/negative rate windows based on wind & solar forecasts.
       </p>
-      <table class="predictions-table">
+      <table>
         <thead>
           <tr>
             <th>Time Window</th>
-            <th>Est. Agile Price</th>
-            <th>Est. Renewable %</th>
-            <th>EDF FreePhase Alert</th>
+            <th>Agile Rate (p/kWh)</th>
+            <th>Est. Renewables</th>
+            <th>Opportunity Status</th>
           </tr>
         </thead>
-        <tbody id="forecast-body">
-          <!-- Populated by JS -->
-        </tbody>
+        <tbody id="forecast-body"></tbody>
       </table>
     </div>
   </div>
@@ -120,27 +113,24 @@
   <script>
     async function loadGridDashboard() {
       try {
-        const res = await fetch('./data/grid_status.json');
+        const res = await fetch('./data/grid_status.json?t=' + Date.now());
         const data = await res.json();
 
-        // Update Summary Stats
+        // Stats
         document.getElementById('last-updated').innerText = `Last updated: ${new Date(data.last_updated).toLocaleString()}`;
-        document.getElementById('stat-total-mw').innerText = `${data.live_grid.total_mw.toLocaleString()} MW`;
+        document.getElementById('stat-total-mw').innerText = data.live_grid.total_mw > 0 ? `${data.live_grid.total_mw.toLocaleString()} MW` : 'Live Mix Only';
         document.getElementById('stat-renewable-pct').innerText = `${data.live_grid.renewable_pct}%`;
         document.getElementById('stat-carbon').innerText = `${data.carbon_intensity_gco2_kwh} g/kWh`;
 
-        // Render Generation Chart
+        // Chart
         const breakdown = data.live_grid.breakdown;
-        const labels = Object.keys(breakdown);
-        const values = Object.values(breakdown);
-
         new Chart(document.getElementById('generationChart'), {
           type: 'bar',
           data: {
-            labels: labels,
+            labels: Object.keys(breakdown),
             datasets: [{
-              label: 'Power Output (MW)',
-              data: values,
+              label: 'Output (MW / %)',
+              data: Object.values(breakdown),
               backgroundColor: '#38bdf8'
             }]
           },
@@ -154,23 +144,28 @@
           }
         });
 
-        // Render Price Predictions
+        // Forecast Table
         const tbody = document.getElementById('forecast-body');
         tbody.innerHTML = '';
         
-        data.predictions.slice(0, 16).forEach(pred => {
+        data.predictions.slice(0, 24).forEach(pred => {
           const row = document.createElement('tr');
           const isFree = pred.is_octopus_agile_free_or_negative || pred.is_edf_freephase_trigger;
           
           row.innerHTML = `
-            <td>${new Date(pred.time).toLocaleString([], {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</td>
+            <td>
+              ${pred.display_time}
+              <span class="tag ${pred.is_official ? 'tag-official' : 'tag-predicted'}">
+                ${pred.is_official ? 'Official' : 'Predicted'}
+              </span>
+            </td>
             <td style="font-weight: bold; color: ${pred.est_agile_price <= 0 ? '#22c55e' : '#f8fafc'}">
               ${pred.est_agile_price} p/kWh
             </td>
             <td>${pred.renewable_ratio_pct}%</td>
             <td>
               <span class="tag ${isFree ? 'tag-free' : 'tag-normal'}">
-                ${isFree ? '⚡ High Zero/Negative Probability' : 'Normal Rate'}
+                ${isFree ? '⚡ Free / Negative Window' : 'Normal Rate'}
               </span>
             </td>
           `;
