@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-04T22:17:46.416359+00:00",
+  "last_updated": "2026-08-04T22:22:05.452500+00:00",
   "dno_regions": {
     "_A": {
       "name": "A - Eastern England"
@@ -42,36 +42,6 @@
     },
     "_P": {
       "name": "P - Northern Scotland"
-    }
-  },
-  "live_grid": {
-    "total_mw": 17100.0,
-    "renewable_pct": 52.5,
-    "fuel_breakdown": {
-      "Biomass": 1641.6,
-      "Ccgt": 0.0,
-      "Coal": 0.0,
-      "Intelec": 0.0,
-      "Intew": 0.0,
-      "Intfr": 0.0,
-      "Intgrnl": 0.0,
-      "Intifa2": 0.0,
-      "Intirl": 0.0,
-      "Intned": 0.0,
-      "Intnem": 0.0,
-      "Intnsl": 0.0,
-      "Intvkl": 0.0,
-      "Npshyd": 0.0,
-      "Nuclear": 2257.2,
-      "Ocgt": 0.0,
-      "Oil": 0.0,
-      "Other": 290.7,
-      "Ps": 0.0,
-      "Wind": 7079.4,
-      "Imports": 820.8,
-      "Gas": 4719.6,
-      "Hydro": 256.5,
-      "Solar": 0.0
     }
   },
   "carbon_intensity": 126,
