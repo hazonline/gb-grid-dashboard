@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-04T22:06:41.333744+00:00",
+  "last_updated": "2026-08-04T22:15:03.105348+00:00",
   "dno_regions": {
     "_A": {
       "name": "A - Eastern England"
@@ -45,21 +45,11 @@
     }
   },
   "live_grid": {
-    "total_mw": 28000.0,
-    "renewable_pct": 50.9,
-    "fuel_breakdown": {
-      "Biomass": 2660.0,
-      "Coal": 0.0,
-      "Imports": 1988.0,
-      "Gas": 7868.0,
-      "Nuclear": 3892.0,
-      "Other": 0.0,
-      "Hydro": 0.0,
-      "Solar": 0.0,
-      "Wind": 11592.0
-    }
+    "total_mw": 0.0,
+    "renewable_pct": 0.0,
+    "fuel_breakdown": {}
   },
-  "carbon_intensity": 114,
+  "carbon_intensity": 126,
   "half_hourly_timeline": [
     {
       "iso_timestamp": "2026-08-04T22:00:00+00:00",
