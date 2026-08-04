@@ -1,0 +1,349 @@
+{
+  "last_updated": "2026-08-04T21:22:40.192341+00:00",
+  "live_grid": {
+    "total_mw": 0,
+    "renewable_pct": 0,
+    "breakdown": {
+      "": 0
+    }
+  },
+  "carbon_intensity_gco2_kwh": 132,
+  "predictions": [
+    {
+      "time": "2026-08-04T00:00",
+      "est_agile_price": 19.23,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 3.2
+    },
+    {
+      "time": "2026-08-04T01:00",
+      "est_agile_price": 19.87,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 0.5
+    },
+    {
+      "time": "2026-08-04T02:00",
+      "est_agile_price": 19.89,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 0.5
+    },
+    {
+      "time": "2026-08-04T03:00",
+      "est_agile_price": 19.75,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 1.0
+    },
+    {
+      "time": "2026-08-04T04:00",
+      "est_agile_price": 19.91,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 0.4
+    },
+    {
+      "time": "2026-08-04T05:00",
+      "est_agile_price": 19.93,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 0.3
+    },
+    {
+      "time": "2026-08-04T06:00",
+      "est_agile_price": 19.81,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 0.8
+    },
+    {
+      "time": "2026-08-04T07:00",
+      "est_agile_price": 29.02,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 1.7
+    },
+    {
+      "time": "2026-08-04T08:00",
+      "est_agile_price": 19.36,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 30.5
+    },
+    {
+      "time": "2026-08-04T09:00",
+      "est_agile_price": 27.08,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 7.5
+    },
+    {
+      "time": "2026-08-04T10:00",
+      "est_agile_price": 28.2,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 4.2
+    },
+    {
+      "time": "2026-08-04T11:00",
+      "est_agile_price": 27.5,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 6.2
+    },
+    {
+      "time": "2026-08-04T12:00",
+      "est_agile_price": 18.66,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 32.6
+    },
+    {
+      "time": "2026-08-04T13:00",
+      "est_agile_price": 26.57,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 9.0
+    },
+    {
+      "time": "2026-08-04T14:00",
+      "est_agile_price": 25.38,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 12.6
+    },
+    {
+      "time": "2026-08-04T15:00",
+      "est_agile_price": 24.32,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 15.7
+    },
+    {
+      "time": "2026-08-04T16:00",
+      "est_agile_price": 27.28,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 6.9
+    },
+    {
+      "time": "2026-08-04T17:00",
+      "est_agile_price": 27.67,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 5.7
+    },
+    {
+      "time": "2026-08-04T18:00",
+      "est_agile_price": 27.13,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 7.4
+    },
+    {
+      "time": "2026-08-04T19:00",
+      "est_agile_price": 26.8,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 8.3
+    },
+    {
+      "time": "2026-08-04T20:00",
+      "est_agile_price": 27.96,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 4.9
+    },
+    {
+      "time": "2026-08-04T21:00",
+      "est_agile_price": 28.57,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 3.1
+    },
+    {
+      "time": "2026-08-04T22:00",
+      "est_agile_price": 28.7,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 2.7
+    },
+    {
+      "time": "2026-08-04T23:00",
+      "est_agile_price": 19.46,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 2.3
+    },
+    {
+      "time": "2026-08-05T00:00",
+      "est_agile_price": 18.88,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 4.7
+    },
+    {
+      "time": "2026-08-05T01:00",
+      "est_agile_price": 19.1,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 3.7
+    },
+    {
+      "time": "2026-08-05T02:00",
+      "est_agile_price": 18.72,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 5.3
+    },
+    {
+      "time": "2026-08-05T03:00",
+      "est_agile_price": 19.29,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 2.9
+    },
+    {
+      "time": "2026-08-05T04:00",
+      "est_agile_price": 18.45,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 6.5
+    },
+    {
+      "time": "2026-08-05T05:00",
+      "est_agile_price": 18.63,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 5.7
+    },
+    {
+      "time": "2026-08-05T06:00",
+      "est_agile_price": 15.65,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 18.1
+    },
+    {
+      "time": "2026-08-05T07:00",
+      "est_agile_price": 27.51,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 6.2
+    },
+    {
+      "time": "2026-08-05T08:00",
+      "est_agile_price": 25.97,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 10.8
+    },
+    {
+      "time": "2026-08-05T09:00",
+      "est_agile_price": 22.98,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 19.7
+    },
+    {
+      "time": "2026-08-05T10:00",
+      "est_agile_price": 19.99,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 28.6
+    },
+    {
+      "time": "2026-08-05T11:00",
+      "est_agile_price": 17.54,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 35.9
+    },
+    {
+      "time": "2026-08-05T12:00",
+      "est_agile_price": 23.57,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 17.9
+    },
+    {
+      "time": "2026-08-05T13:00",
+      "est_agile_price": 20.85,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 26.0
+    },
+    {
+      "time": "2026-08-05T14:00",
+      "est_agile_price": 18.06,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 34.3
+    },
+    {
+      "time": "2026-08-05T15:00",
+      "est_agile_price": 20.71,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 26.4
+    },
+    {
+      "time": "2026-08-05T16:00",
+      "est_agile_price": 20.36,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 27.5
+    },
+    {
+      "time": "2026-08-05T17:00",
+      "est_agile_price": 25.29,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 12.8
+    },
+    {
+      "time": "2026-08-05T18:00",
+      "est_agile_price": 26.14,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 10.3
+    },
+    {
+      "time": "2026-08-05T19:00",
+      "est_agile_price": 26.39,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 9.6
+    },
+    {
+      "time": "2026-08-05T20:00",
+      "est_agile_price": 26.09,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 10.4
+    },
+    {
+      "time": "2026-08-05T21:00",
+      "est_agile_price": 27.64,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 5.8
+    },
+    {
+      "time": "2026-08-05T22:00",
+      "est_agile_price": 28.05,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 4.6
+    },
+    {
+      "time": "2026-08-05T23:00",
+      "est_agile_price": 19.1,
+      "is_octopus_agile_free_or_negative": false,
+      "is_edf_freephase_trigger": false,
+      "renewable_ratio_pct": 3.7
+    }
+  ]
+}
