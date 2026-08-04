@@ -1,237 +1,271 @@
 {
-  "last_updated": "2026-08-04T21:28:58.018039+00:00",
+  "last_updated": "2026-08-04T21:32:46.857624+00:00",
   "live_grid": {
-    "total_mw": 28000,
-    "renewable_pct": 51.4,
-    "breakdown": {
-      "BIOMASS": 2632.0,
-      "COAL": 0.0,
-      "IMPORTS": 1260.0,
-      "GAS": 8120.0,
-      "NUCLEAR": 3528.0,
-      "OTHER": 672.0,
-      "HYDRO": 420.0,
-      "SOLAR": 0.0,
-      "WIND": 11340.0
-    }
+    "total_mw": 0.0,
+    "renewable_pct": 0.0,
+    "fuel_breakdown": {}
   },
-  "carbon_intensity_gco2_kwh": 132,
-  "predictions": [
+  "carbon_intensity": 132,
+  "forecasts": [
     {
-      "timestamp": "2026-08-04T21:00:00+00:00",
-      "est_agile_price": 32.42,
-      "is_official": false,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 2.7
+      "iso_timestamp": "2026-08-04T22:00:00+00:00",
+      "agile_price": 32.77,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 31.13,
+      "is_free_moment": false,
+      "est_renewable_pct": 7.8
     },
     {
-      "timestamp": "2026-08-04T22:00:00+00:00",
-      "est_agile_price": 24.5,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 8.0
+      "iso_timestamp": "2026-08-04T23:00:00+00:00",
+      "agile_price": 19.68,
+      "is_official_agile": false,
+      "edf_band": "Green",
+      "edf_band_code": "GREEN",
+      "edf_estimated_rate": 12.79,
+      "is_free_moment": false,
+      "est_renewable_pct": 7.3
     },
     {
-      "timestamp": "2026-08-04T23:00:00+00:00",
-      "est_agile_price": 23.84,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 7.3
+      "iso_timestamp": "2026-08-05T00:00:00+00:00",
+      "agile_price": 21.0,
+      "is_official_agile": false,
+      "edf_band": "Green",
+      "edf_band_code": "GREEN",
+      "edf_estimated_rate": 13.65,
+      "is_free_moment": false,
+      "est_renewable_pct": 1.7
     },
     {
-      "timestamp": "2026-08-05T00:00:00+00:00",
-      "est_agile_price": 23.37,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 1.7
+      "iso_timestamp": "2026-08-05T01:00:00+00:00",
+      "agile_price": 21.03,
+      "is_official_agile": false,
+      "edf_band": "Green",
+      "edf_band_code": "GREEN",
+      "edf_estimated_rate": 13.67,
+      "is_free_moment": false,
+      "est_renewable_pct": 1.6
     },
     {
-      "timestamp": "2026-08-05T01:00:00+00:00",
-      "est_agile_price": 21.98,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 1.6
+      "iso_timestamp": "2026-08-05T02:00:00+00:00",
+      "agile_price": 20.9,
+      "is_official_agile": false,
+      "edf_band": "Green",
+      "edf_band_code": "GREEN",
+      "edf_estimated_rate": 13.58,
+      "is_free_moment": false,
+      "est_renewable_pct": 2.1
     },
     {
-      "timestamp": "2026-08-05T02:00:00+00:00",
-      "est_agile_price": 20.52,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 2.1
+      "iso_timestamp": "2026-08-05T03:00:00+00:00",
+      "agile_price": 19.89,
+      "is_official_agile": false,
+      "edf_band": "Green",
+      "edf_band_code": "GREEN",
+      "edf_estimated_rate": 12.93,
+      "is_free_moment": false,
+      "est_renewable_pct": 6.5
     },
     {
-      "timestamp": "2026-08-05T03:00:00+00:00",
-      "est_agile_price": 21.49,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 6.5
+      "iso_timestamp": "2026-08-05T04:00:00+00:00",
+      "agile_price": 19.56,
+      "is_official_agile": false,
+      "edf_band": "Green",
+      "edf_band_code": "GREEN",
+      "edf_estimated_rate": 12.71,
+      "is_free_moment": false,
+      "est_renewable_pct": 7.9
     },
     {
-      "timestamp": "2026-08-05T04:00:00+00:00",
-      "est_agile_price": 23.68,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 7.9
+      "iso_timestamp": "2026-08-05T05:00:00+00:00",
+      "agile_price": 14.94,
+      "is_official_agile": false,
+      "edf_band": "Green",
+      "edf_band_code": "GREEN",
+      "edf_estimated_rate": 9.71,
+      "is_free_moment": false,
+      "est_renewable_pct": 27.6
     },
     {
-      "timestamp": "2026-08-05T05:00:00+00:00",
-      "est_agile_price": 23.59,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 27.6
+      "iso_timestamp": "2026-08-05T06:00:00+00:00",
+      "agile_price": 18.01,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 18.0,
+      "is_free_moment": false,
+      "est_renewable_pct": 14.5
     },
     {
-      "timestamp": "2026-08-05T06:00:00+00:00",
-      "est_agile_price": 22.54,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 14.5
+      "iso_timestamp": "2026-08-05T07:00:00+00:00",
+      "agile_price": 29.53,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 28.05,
+      "is_free_moment": false,
+      "est_renewable_pct": 16.4
     },
     {
-      "timestamp": "2026-08-05T07:00:00+00:00",
-      "est_agile_price": 16.96,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 17.0
+      "iso_timestamp": "2026-08-05T08:00:00+00:00",
+      "agile_price": 29.74,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 28.25,
+      "is_free_moment": false,
+      "est_renewable_pct": 15.8
     },
     {
-      "timestamp": "2026-08-05T08:00:00+00:00",
-      "est_agile_price": 5.66,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 16.4
+      "iso_timestamp": "2026-08-05T09:00:00+00:00",
+      "agile_price": 31.38,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 29.81,
+      "is_free_moment": false,
+      "est_renewable_pct": 11.5
     },
     {
-      "timestamp": "2026-08-05T09:00:00+00:00",
-      "est_agile_price": -3.04,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": true,
-      "is_edf_freephase_trigger": true,
-      "renewable_ratio_pct": 11.9
+      "iso_timestamp": "2026-08-05T10:00:00+00:00",
+      "agile_price": 20.97,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 19.92,
+      "is_free_moment": false,
+      "est_renewable_pct": 39.1
     },
     {
-      "timestamp": "2026-08-05T10:00:00+00:00",
-      "est_agile_price": -3.61,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": true,
-      "is_edf_freephase_trigger": true,
-      "renewable_ratio_pct": 40.5
+      "iso_timestamp": "2026-08-05T11:00:00+00:00",
+      "agile_price": 23.14,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 21.98,
+      "is_free_moment": false,
+      "est_renewable_pct": 33.3
     },
     {
-      "timestamp": "2026-08-05T11:00:00+00:00",
-      "est_agile_price": -3.91,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": true,
-      "is_edf_freephase_trigger": true,
-      "renewable_ratio_pct": 34.5
+      "iso_timestamp": "2026-08-05T12:00:00+00:00",
+      "agile_price": 21.47,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 20.4,
+      "is_free_moment": false,
+      "est_renewable_pct": 37.8
     },
     {
-      "timestamp": "2026-08-05T12:00:00+00:00",
-      "est_agile_price": -4.03,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": true,
-      "is_edf_freephase_trigger": true,
-      "renewable_ratio_pct": 39.1
+      "iso_timestamp": "2026-08-05T13:00:00+00:00",
+      "agile_price": 18.13,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 18.0,
+      "is_free_moment": false,
+      "est_renewable_pct": 46.6
     },
     {
-      "timestamp": "2026-08-05T13:00:00+00:00",
-      "est_agile_price": -3.91,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": true,
-      "is_edf_freephase_trigger": true,
-      "renewable_ratio_pct": 48.3
+      "iso_timestamp": "2026-08-05T14:00:00+00:00",
+      "agile_price": 19.67,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 18.69,
+      "is_free_moment": false,
+      "est_renewable_pct": 42.5
     },
     {
-      "timestamp": "2026-08-05T14:00:00+00:00",
-      "est_agile_price": -3.91,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": true,
-      "is_edf_freephase_trigger": true,
-      "renewable_ratio_pct": 44.0
+      "iso_timestamp": "2026-08-05T15:00:00+00:00",
+      "agile_price": 19.65,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 18.67,
+      "is_free_moment": false,
+      "est_renewable_pct": 42.6
     },
     {
-      "timestamp": "2026-08-05T15:00:00+00:00",
-      "est_agile_price": 19.98,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 44.1
+      "iso_timestamp": "2026-08-05T16:00:00+00:00",
+      "agile_price": 21.48,
+      "is_official_agile": false,
+      "edf_band": "Red (Peak)",
+      "edf_band_code": "RED",
+      "edf_estimated_rate": 32.0,
+      "is_free_moment": false,
+      "est_renewable_pct": 37.7
     },
     {
-      "timestamp": "2026-08-05T16:00:00+00:00",
-      "est_agile_price": 31.46,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 39.1
+      "iso_timestamp": "2026-08-05T17:00:00+00:00",
+      "agile_price": 21.23,
+      "is_official_agile": false,
+      "edf_band": "Red (Peak)",
+      "edf_band_code": "RED",
+      "edf_estimated_rate": 32.0,
+      "is_free_moment": false,
+      "est_renewable_pct": 38.4
     },
     {
-      "timestamp": "2026-08-05T17:00:00+00:00",
-      "est_agile_price": 37.21,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 39.7
+      "iso_timestamp": "2026-08-05T18:00:00+00:00",
+      "agile_price": 27.47,
+      "is_official_agile": false,
+      "edf_band": "Red (Peak)",
+      "edf_band_code": "RED",
+      "edf_estimated_rate": 37.08,
+      "is_free_moment": false,
+      "est_renewable_pct": 21.8
     },
     {
-      "timestamp": "2026-08-05T18:00:00+00:00",
-      "est_agile_price": 25.35,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 22.6
+      "iso_timestamp": "2026-08-05T19:00:00+00:00",
+      "agile_price": 29.01,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 27.56,
+      "is_free_moment": false,
+      "est_renewable_pct": 17.7
     },
     {
-      "timestamp": "2026-08-05T19:00:00+00:00",
-      "est_agile_price": 25.03,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 18.4
+      "iso_timestamp": "2026-08-05T20:00:00+00:00",
+      "agile_price": 29.01,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 27.56,
+      "is_free_moment": false,
+      "est_renewable_pct": 17.7
     },
     {
-      "timestamp": "2026-08-05T20:00:00+00:00",
-      "est_agile_price": 25.38,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 18.4
+      "iso_timestamp": "2026-08-05T21:00:00+00:00",
+      "agile_price": 26.58,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 25.25,
+      "is_free_moment": false,
+      "est_renewable_pct": 24.2
     },
     {
-      "timestamp": "2026-08-05T21:00:00+00:00",
-      "est_agile_price": 24.2,
-      "is_official": true,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 25.1
+      "iso_timestamp": "2026-08-05T22:00:00+00:00",
+      "agile_price": 27.21,
+      "is_official_agile": false,
+      "edf_band": "Amber",
+      "edf_band_code": "AMBER",
+      "edf_estimated_rate": 25.85,
+      "is_free_moment": false,
+      "est_renewable_pct": 22.5
     },
     {
-      "timestamp": "2026-08-05T22:00:00+00:00",
-      "est_agile_price": 24.91,
-      "is_official": false,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 23.3
-    },
-    {
-      "timestamp": "2026-08-05T23:00:00+00:00",
-      "est_agile_price": 10.61,
-      "is_official": false,
-      "is_octopus_agile_free_or_negative": false,
-      "is_edf_freephase_trigger": false,
-      "renewable_ratio_pct": 41.8
+      "iso_timestamp": "2026-08-05T23:00:00+00:00",
+      "agile_price": 11.61,
+      "is_official_agile": false,
+      "edf_band": "Green",
+      "edf_band_code": "GREEN",
+      "edf_estimated_rate": 8.0,
+      "is_free_moment": false,
+      "est_renewable_pct": 41.8
     }
   ]
 }
