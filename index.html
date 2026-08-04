@@ -3,192 +3,216 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GB Electricity Grid & Price Predictor</title>
+  <title>GB National Grid & Tariff Intelligence</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --text-main: #f8fafc;
-      --accent-green: #22c55e;
+      --bg: #090d16;
+      --card-bg: #131b2e;
+      --border: #1e293b;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent-green: #10b981;
       --accent-blue: #38bdf8;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
+      background-color: var(--bg);
+      color: var(--text);
       margin: 0;
-      padding: 24px;
+      padding: 32px 16px;
     }
-    .container { max-width: 1000px; margin: 0 auto; }
-    header { text-align: center; margin-bottom: 28px; }
-    header h1 { margin: 0 0 8px 0; font-size: 2rem; }
-    .badge { font-size: 0.85rem; color: #94a3b8; }
-    
-    .grid-stats {
+    .container { max-width: 1100px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 36px; }
+    header h1 { font-size: 2.2rem; font-weight: 800; margin: 0 0 6px 0; letter-spacing: -0.02em; }
+    .updated-tag { font-size: 0.85rem; color: var(--muted); }
+
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
     }
     .stat-card {
       background: var(--card-bg);
-      border-radius: 12px;
-      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
       text-align: center;
-      border: 1px solid #334155;
     }
-    .stat-value { font-size: 1.8rem; font-weight: bold; margin: 6px 0; color: var(--accent-green); }
-    
-    .dashboard-panel {
+    .stat-label { font-size: 0.85rem; text-transform: uppercase; tracking: 0.05em; color: var(--muted); font-weight: 600; }
+    .stat-num { font-size: 2.2rem; font-weight: 800; margin-top: 8px; color: var(--accent-green); }
+
+    .section-card {
       background: var(--card-bg);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 24px;
-      border: 1px solid #334155;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      margin-bottom: 32px;
     }
-    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #334155; font-size: 0.95rem; }
-    th { color: #94a3b8; }
-    .tag {
+    .section-card h2 { margin-top: 0; font-size: 1.3rem; font-weight: 700; color: #fff; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
+    th { color: var(--muted); font-weight: 600; }
+    
+    .badge {
       display: inline-block;
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 6px;
       font-size: 0.78rem;
-      font-weight: bold;
+      font-weight: 700;
+      text-transform: uppercase;
     }
-    .tag-free { background: #15803d; color: #fff; }
-    .tag-normal { background: #334155; color: #94a3b8; }
-    .tag-official { background: #0284c7; color: #fff; margin-left: 6px; }
-    .tag-predicted { background: #475569; color: #cbd5e1; margin-left: 6px; }
+    .badge-official { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); border: 1px solid var(--accent-blue); }
+    .badge-pred { background: rgba(148, 163, 184, 0.15); color: var(--muted); }
+    
+    /* EDF FreePhase Bands */
+    .band-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid var(--accent-green); }
+    .band-amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid var(--accent-amber); }
+    .band-red { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid var(--accent-red); }
+    .band-free { background: #10b981; color: #000; font-weight: 900; animation: pulse 2s infinite; }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🇬🇧 GB Live Grid & Free Electricity Predictor</h1>
-      <div class="badge" id="last-updated">Loading live grid status...</div>
+      <h1>🇬🇧 GB Live Grid & Smart Tariff Intelligence</h1>
+      <div class="updated-tag" id="last-updated">Connecting to Elexon BMRS stream...</div>
     </header>
 
-    <div class="grid-stats">
+    <div class="stats-grid">
       <div class="stat-card">
-        <div>Estimated Grid Generation</div>
-        <div class="stat-value" id="stat-total-mw">-- MW</div>
+        <div class="stat-label">National Demand Outturn</div>
+        <div class="stat-num" id="stat-total-mw">-- MW</div>
       </div>
       <div class="stat-card">
-        <div>Renewable Share</div>
-        <div class="stat-value" id="stat-renewable-pct">-- %</div>
+        <div class="stat-label">Renewable Share</div>
+        <div class="stat-num" id="stat-renewable-pct">-- %</div>
       </div>
       <div class="stat-card">
-        <div>Carbon Intensity</div>
-        <div class="stat-value" style="color: var(--accent-blue);" id="stat-carbon">-- g/kWh</div>
+        <div class="stat-label">Carbon Intensity</div>
+        <div class="stat-num" style="color: var(--accent-blue);" id="stat-carbon">-- gCO₂/kWh</div>
       </div>
     </div>
 
-    <div class="dashboard-panel">
-      <h2>Live Generation Fuel Mix</h2>
-      <canvas id="generationChart" height="90"></canvas>
+    <div class="section-card">
+      <h2>Live Power Generation Breakdown</h2>
+      <canvas id="generationChart" height="100"></canvas>
     </div>
 
-    <div class="dashboard-panel">
-      <h2>⚡ Forecasted Agile & FreePhase Opportunities</h2>
-      <p style="color: #94a3b8; font-size: 0.88rem;">
-        Upcoming hours showing official rates or predicted zero/negative rate windows based on wind & solar forecasts.
+    <div class="section-card">
+      <h2>⚡ Tariff Predictor: Octopus Agile vs. EDF FreePhase</h2>
+      <p style="color: var(--muted); font-size: 0.9rem;">
+        Comparing live & forecast half-hourly Octopus Agile rates alongside EDF FreePhase rate bands (Green 🟢, Amber 🟡, Red 🔴) and Free Electricity windows ⚡.
       </p>
       <table>
         <thead>
           <tr>
             <th>Time Window</th>
-            <th>Agile Rate (p/kWh)</th>
-            <th>Est. Renewables</th>
-            <th>Opportunity Status</th>
+            <th>Octopus Agile (p/kWh)</th>
+            <th>EDF FreePhase Band</th>
+            <th>EDF Est. Rate</th>
+            <th>Est. Renewable %</th>
           </tr>
         </thead>
-        <tbody id="forecast-body"></tbody>
+        <tbody id="forecast-table-body"></tbody>
       </table>
     </div>
   </div>
 
   <script>
-    function formatDate(isoStr) {
-      if (!isoStr) return 'N/A';
+    function formatTime(isoStr) {
       const d = new Date(isoStr);
-      return d.toLocaleString('en-GB', {
-        weekday: 'short',
-        day: 'numeric',
-        month: 'short',
-        hour: '2-digit',
-        minute: '2-digit'
+      return d.toLocaleDateString('en-GB', {
+        weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
       });
     }
 
-    async function loadGridDashboard() {
+    async function initDashboard() {
       try {
         const res = await fetch('./data/grid_status.json?t=' + Date.now());
         const data = await res.json();
 
-        // Update Stats
-        document.getElementById('last-updated').innerText = `Last updated: ${new Date(data.last_updated).toLocaleString('en-GB')}`;
-        document.getElementById('stat-total-mw').innerText = `${data.live_grid.total_mw.toLocaleString()} MW`;
+        // Header & Summary Stats
+        document.getElementById('last-updated').innerText = `Updated: ${new Date(data.last_updated).toLocaleString('en-GB')}`;
+        
+        const totalMw = data.live_grid.total_mw;
+        document.getElementById('stat-total-mw').innerText = totalMw > 0 ? `${totalMw.toLocaleString()} MW` : 'Mix % Only';
         document.getElementById('stat-renewable-pct').innerText = `${data.live_grid.renewable_pct}%`;
-        document.getElementById('stat-carbon').innerText = `${data.carbon_intensity_gco2_kwh} g/kWh`;
+        document.getElementById('stat-carbon').innerText = `${data.carbon_intensity} g`;
 
-        // Render Generation Chart
-        const breakdown = data.live_grid.breakdown;
+        // Stacked Generation Chart
+        const breakdown = data.live_grid.fuel_breakdown;
+        const labels = Object.keys(breakdown);
+        const values = Object.values(breakdown);
+
         new Chart(document.getElementById('generationChart'), {
           type: 'bar',
           data: {
-            labels: Object.keys(breakdown),
+            labels: labels,
             datasets: [{
-              label: 'Estimated MW Share',
-              data: Object.values(breakdown),
-              backgroundColor: '#38bdf8'
+              label: totalMw > 0 ? 'Output (MW)' : 'Share (%)',
+              data: values,
+              backgroundColor: labels.map(l => {
+                if (['Wind', 'Solar', 'Hydro', 'Biomass'].includes(l)) return '#10b981';
+                if (['Nuclear'].includes(l)) return '#a855f7';
+                if (['Gas (CCGT)', 'Coal', 'Oil'].includes(l)) return '#f97316';
+                return '#38bdf8'; // Interconnectors / Other
+              })
             }]
           },
           options: {
             responsive: true,
             plugins: { legend: { display: false } },
             scales: {
-              y: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
+              y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
               x: { ticks: { color: '#94a3b8' }, grid: { display: false } }
             }
           }
         });
 
-        // Forecast Table
-        const tbody = document.getElementById('forecast-body');
+        // Tariff Intelligence Table
+        const tbody = document.getElementById('forecast-table-body');
         tbody.innerHTML = '';
 
-        data.predictions.slice(0, 24).forEach(pred => {
+        data.forecasts.slice(0, 24).forEach(item => {
           const row = document.createElement('tr');
-          const isFree = pred.is_octopus_agile_free_or_negative || pred.is_edf_freephase_trigger;
           
+          let bandClass = 'band-amber';
+          if (item.is_free_moment) bandClass = 'band-free';
+          else if (item.edf_band_code === 'GREEN') bandClass = 'band-green';
+          else if (item.edf_band_code === 'RED') bandClass = 'band-red';
+
           row.innerHTML = `
             <td>
-              ${formatDate(pred.timestamp)}
-              <span class="tag ${pred.is_official ? 'tag-official' : 'tag-predicted'}">
-                ${pred.is_official ? 'Official' : 'Predicted'}
+              <strong>${formatTime(item.iso_timestamp)}</strong>
+              <span class="badge ${item.is_official_agile ? 'badge-official' : 'badge-pred'}">
+                ${item.is_official_agile ? 'Official' : 'Forecast'}
               </span>
             </td>
-            <td style="font-weight: bold; color: ${pred.est_agile_price <= 0 ? '#22c55e' : '#f8fafc'}">
-              ${pred.est_agile_price} p/kWh
+            <td style="font-weight: 800; color: ${item.agile_price <= 0 ? '#10b981' : '#f1f5f9'}">
+              ${item.agile_price} p/kWh
             </td>
-            <td>${pred.renewable_ratio_pct}%</td>
             <td>
-              <span class="tag ${isFree ? 'tag-free' : 'tag-normal'}">
-                ${isFree ? '⚡ Free / Negative Window' : 'Normal Rate'}
+              <span class="badge ${bandClass}">
+                ${item.is_free_moment ? '⚡ FREE MOMENT' : item.edf_band}
               </span>
             </td>
+            <td>${item.is_free_moment ? '0.0 p/kWh' : '~' + item.edf_estimated_rate + ' p/kWh'}</td>
+            <td>${item.est_renewable_pct}%</td>
           `;
           tbody.appendChild(row);
         });
 
       } catch (err) {
-        console.error("Failed to load grid data:", err);
+        console.error("Dashboard error:", err);
       }
     }
 
-    loadGridDashboard();
+    initDashboard();
   </script>
 </body>
 </html>
