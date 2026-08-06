@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-06T03:57:07.328242+00:00",
+  "last_updated": "2026-08-06T06:25:00.367419+00:00",
   "dno_regions": {
     "A": {
       "name": "Eastern England",
@@ -58,398 +58,8 @@
       "svt_rate": 26.42
     }
   },
-  "carbon_intensity": 58,
+  "carbon_intensity": 68,
   "half_hourly_timeline": [
-    {
-      "valid_from": "2026-08-06T03:30:00+00:00",
-      "valid_to": "2026-08-06T04:00:00+00:00",
-      "band_name": "Green (Off-Peak)",
-      "band_code": "GREEN",
-      "regional_pricing": {
-        "A": {
-          "agile_price": 18.14,
-          "edf_price": 18.39,
-          "is_free_moment": false
-        },
-        "B": {
-          "agile_price": 17.11,
-          "edf_price": 18.39,
-          "is_free_moment": false
-        },
-        "C": {
-          "agile_price": 17.11,
-          "edf_price": 19.46,
-          "is_free_moment": false
-        },
-        "D": {
-          "agile_price": 19.17,
-          "edf_price": 19.67,
-          "is_free_moment": false
-        },
-        "E": {
-          "agile_price": 18.14,
-          "edf_price": 18.18,
-          "is_free_moment": false
-        },
-        "F": {
-          "agile_price": 18.14,
-          "edf_price": 18.18,
-          "is_free_moment": false
-        },
-        "G": {
-          "agile_price": 18.14,
-          "edf_price": 18.71,
-          "is_free_moment": false
-        },
-        "H": {
-          "agile_price": 18.14,
-          "edf_price": 18.71,
-          "is_free_moment": false
-        },
-        "J": {
-          "agile_price": 19.17,
-          "edf_price": 17.96,
-          "is_free_moment": false
-        },
-        "K": {
-          "agile_price": 19.17,
-          "edf_price": 18.71,
-          "is_free_moment": false
-        },
-        "L": {
-          "agile_price": 20.21,
-          "edf_price": 17.96,
-          "is_free_moment": false
-        },
-        "M": {
-          "agile_price": 17.11,
-          "edf_price": 18.28,
-          "is_free_moment": false
-        },
-        "N": {
-          "agile_price": 18.14,
-          "edf_price": 18.39,
-          "is_free_moment": false
-        },
-        "P": {
-          "agile_price": 21.24,
-          "edf_price": 19.99,
-          "is_free_moment": false
-        }
-      }
-    },
-    {
-      "valid_from": "2026-08-06T04:00:00+00:00",
-      "valid_to": "2026-08-06T04:30:00+00:00",
-      "band_name": "Green (Off-Peak)",
-      "band_code": "GREEN",
-      "regional_pricing": {
-        "A": {
-          "agile_price": 18.25,
-          "edf_price": 18.39,
-          "is_free_moment": false
-        },
-        "B": {
-          "agile_price": 17.21,
-          "edf_price": 18.39,
-          "is_free_moment": false
-        },
-        "C": {
-          "agile_price": 17.21,
-          "edf_price": 19.46,
-          "is_free_moment": false
-        },
-        "D": {
-          "agile_price": 19.29,
-          "edf_price": 19.67,
-          "is_free_moment": false
-        },
-        "E": {
-          "agile_price": 18.25,
-          "edf_price": 18.18,
-          "is_free_moment": false
-        },
-        "F": {
-          "agile_price": 18.25,
-          "edf_price": 18.18,
-          "is_free_moment": false
-        },
-        "G": {
-          "agile_price": 18.25,
-          "edf_price": 18.71,
-          "is_free_moment": false
-        },
-        "H": {
-          "agile_price": 18.25,
-          "edf_price": 18.71,
-          "is_free_moment": false
-        },
-        "J": {
-          "agile_price": 19.29,
-          "edf_price": 17.96,
-          "is_free_moment": false
-        },
-        "K": {
-          "agile_price": 19.29,
-          "edf_price": 18.71,
-          "is_free_moment": false
-        },
-        "L": {
-          "agile_price": 20.32,
-          "edf_price": 17.96,
-          "is_free_moment": false
-        },
-        "M": {
-          "agile_price": 17.21,
-          "edf_price": 18.28,
-          "is_free_moment": false
-        },
-        "N": {
-          "agile_price": 18.25,
-          "edf_price": 18.39,
-          "is_free_moment": false
-        },
-        "P": {
-          "agile_price": 21.36,
-          "edf_price": 19.99,
-          "is_free_moment": false
-        }
-      }
-    },
-    {
-      "valid_from": "2026-08-06T04:30:00+00:00",
-      "valid_to": "2026-08-06T05:00:00+00:00",
-      "band_name": "Green (Off-Peak)",
-      "band_code": "GREEN",
-      "regional_pricing": {
-        "A": {
-          "agile_price": 19.65,
-          "edf_price": 18.39,
-          "is_free_moment": false
-        },
-        "B": {
-          "agile_price": 18.54,
-          "edf_price": 18.39,
-          "is_free_moment": false
-        },
-        "C": {
-          "agile_price": 18.54,
-          "edf_price": 19.46,
-          "is_free_moment": false
-        },
-        "D": {
-          "agile_price": 20.75,
-          "edf_price": 19.67,
-          "is_free_moment": false
-        },
-        "E": {
-          "agile_price": 19.65,
-          "edf_price": 18.18,
-          "is_free_moment": false
-        },
-        "F": {
-          "agile_price": 19.65,
-          "edf_price": 18.18,
-          "is_free_moment": false
-        },
-        "G": {
-          "agile_price": 19.65,
-          "edf_price": 18.71,
-          "is_free_moment": false
-        },
-        "H": {
-          "agile_price": 19.65,
-          "edf_price": 18.71,
-          "is_free_moment": false
-        },
-        "J": {
-          "agile_price": 20.75,
-          "edf_price": 17.96,
-          "is_free_moment": false
-        },
-        "K": {
-          "agile_price": 20.75,
-          "edf_price": 18.71,
-          "is_free_moment": false
-        },
-        "L": {
-          "agile_price": 21.85,
-          "edf_price": 17.96,
-          "is_free_moment": false
-        },
-        "M": {
-          "agile_price": 18.54,
-          "edf_price": 18.28,
-          "is_free_moment": false
-        },
-        "N": {
-          "agile_price": 19.65,
-          "edf_price": 18.39,
-          "is_free_moment": false
-        },
-        "P": {
-          "agile_price": 22.95,
-          "edf_price": 19.99,
-          "is_free_moment": false
-        }
-      }
-    },
-    {
-      "valid_from": "2026-08-06T05:00:00+00:00",
-      "valid_to": "2026-08-06T05:30:00+00:00",
-      "band_name": "Green (Off-Peak)",
-      "band_code": "GREEN",
-      "regional_pricing": {
-        "A": {
-          "agile_price": 21.08,
-          "edf_price": 19.62,
-          "is_free_moment": false
-        },
-        "B": {
-          "agile_price": 19.91,
-          "edf_price": 19.62,
-          "is_free_moment": false
-        },
-        "C": {
-          "agile_price": 19.91,
-          "edf_price": 20.75,
-          "is_free_moment": false
-        },
-        "D": {
-          "agile_price": 22.25,
-          "edf_price": 20.98,
-          "is_free_moment": false
-        },
-        "E": {
-          "agile_price": 21.08,
-          "edf_price": 19.4,
-          "is_free_moment": false
-        },
-        "F": {
-          "agile_price": 21.08,
-          "edf_price": 19.4,
-          "is_free_moment": false
-        },
-        "G": {
-          "agile_price": 21.08,
-          "edf_price": 19.96,
-          "is_free_moment": false
-        },
-        "H": {
-          "agile_price": 21.08,
-          "edf_price": 19.96,
-          "is_free_moment": false
-        },
-        "J": {
-          "agile_price": 22.25,
-          "edf_price": 19.17,
-          "is_free_moment": false
-        },
-        "K": {
-          "agile_price": 22.25,
-          "edf_price": 19.96,
-          "is_free_moment": false
-        },
-        "L": {
-          "agile_price": 23.41,
-          "edf_price": 19.17,
-          "is_free_moment": false
-        },
-        "M": {
-          "agile_price": 19.91,
-          "edf_price": 19.51,
-          "is_free_moment": false
-        },
-        "N": {
-          "agile_price": 21.08,
-          "edf_price": 19.62,
-          "is_free_moment": false
-        },
-        "P": {
-          "agile_price": 24.59,
-          "edf_price": 21.31,
-          "is_free_moment": false
-        }
-      }
-    },
-    {
-      "valid_from": "2026-08-06T05:30:00+00:00",
-      "valid_to": "2026-08-06T06:00:00+00:00",
-      "band_name": "Green (Off-Peak)",
-      "band_code": "GREEN",
-      "regional_pricing": {
-        "A": {
-          "agile_price": 22.71,
-          "edf_price": 19.62,
-          "is_free_moment": false
-        },
-        "B": {
-          "agile_price": 21.46,
-          "edf_price": 19.62,
-          "is_free_moment": false
-        },
-        "C": {
-          "agile_price": 21.46,
-          "edf_price": 20.75,
-          "is_free_moment": false
-        },
-        "D": {
-          "agile_price": 23.96,
-          "edf_price": 20.98,
-          "is_free_moment": false
-        },
-        "E": {
-          "agile_price": 22.71,
-          "edf_price": 19.4,
-          "is_free_moment": false
-        },
-        "F": {
-          "agile_price": 22.71,
-          "edf_price": 19.4,
-          "is_free_moment": false
-        },
-        "G": {
-          "agile_price": 22.71,
-          "edf_price": 19.96,
-          "is_free_moment": false
-        },
-        "H": {
-          "agile_price": 22.71,
-          "edf_price": 19.96,
-          "is_free_moment": false
-        },
-        "J": {
-          "agile_price": 23.96,
-          "edf_price": 19.17,
-          "is_free_moment": false
-        },
-        "K": {
-          "agile_price": 23.96,
-          "edf_price": 19.96,
-          "is_free_moment": false
-        },
-        "L": {
-          "agile_price": 25.21,
-          "edf_price": 19.17,
-          "is_free_moment": false
-        },
-        "M": {
-          "agile_price": 21.46,
-          "edf_price": 19.51,
-          "is_free_moment": false
-        },
-        "N": {
-          "agile_price": 22.71,
-          "edf_price": 19.62,
-          "is_free_moment": false
-        },
-        "P": {
-          "agile_price": 26.46,
-          "edf_price": 21.31,
-          "is_free_moment": false
-        }
-      }
-    },
     {
       "valid_from": "2026-08-06T06:00:00+00:00",
       "valid_to": "2026-08-06T06:30:00+00:00",
@@ -3729,6 +3339,396 @@
     {
       "valid_from": "2026-08-07T03:00:00+00:00",
       "valid_to": "2026-08-07T03:30:00+00:00",
+      "band_name": "Green (Off-Peak)",
+      "band_code": "GREEN",
+      "regional_pricing": {
+        "A": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "B": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "C": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "D": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "E": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "F": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "G": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "H": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "J": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "K": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "L": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "M": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "N": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "P": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        }
+      }
+    },
+    {
+      "valid_from": "2026-08-07T03:30:00+00:00",
+      "valid_to": "2026-08-07T04:00:00+00:00",
+      "band_name": "Green (Off-Peak)",
+      "band_code": "GREEN",
+      "regional_pricing": {
+        "A": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "B": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "C": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "D": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "E": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "F": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "G": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "H": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "J": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "K": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "L": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "M": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "N": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "P": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        }
+      }
+    },
+    {
+      "valid_from": "2026-08-07T04:00:00+00:00",
+      "valid_to": "2026-08-07T04:30:00+00:00",
+      "band_name": "Green (Off-Peak)",
+      "band_code": "GREEN",
+      "regional_pricing": {
+        "A": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "B": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "C": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "D": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "E": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "F": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "G": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "H": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "J": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "K": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "L": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "M": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "N": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "P": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        }
+      }
+    },
+    {
+      "valid_from": "2026-08-07T04:30:00+00:00",
+      "valid_to": "2026-08-07T05:00:00+00:00",
+      "band_name": "Green (Off-Peak)",
+      "band_code": "GREEN",
+      "regional_pricing": {
+        "A": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "B": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "C": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "D": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "E": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "F": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "G": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "H": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "J": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "K": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "L": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "M": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "N": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "P": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        }
+      }
+    },
+    {
+      "valid_from": "2026-08-07T05:00:00+00:00",
+      "valid_to": "2026-08-07T05:30:00+00:00",
+      "band_name": "Green (Off-Peak)",
+      "band_code": "GREEN",
+      "regional_pricing": {
+        "A": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "B": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "C": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "D": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "E": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "F": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "G": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "H": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "J": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "K": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "L": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "M": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "N": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        },
+        "P": {
+          "agile_price": null,
+          "edf_price": null,
+          "is_free_moment": false
+        }
+      }
+    },
+    {
+      "valid_from": "2026-08-07T05:30:00+00:00",
+      "valid_to": "2026-08-07T06:00:00+00:00",
       "band_name": "Green (Off-Peak)",
       "band_code": "GREEN",
       "regional_pricing": {
