@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-07T10:25:38.653450+00:00",
+  "last_updated": "2026-08-07T11:13:53.255035+00:00",
   "dno_regions": {
     "A": {
       "name": "Eastern England",
@@ -58,164 +58,8 @@
       "svt_rate": 26.42
     }
   },
-  "carbon_intensity": 72,
+  "carbon_intensity": 73,
   "half_hourly_timeline": [
-    {
-      "valid_from": "2026-08-07T10:00:00+00:00",
-      "valid_to": "2026-08-07T10:30:00+00:00",
-      "band_name": "Amber (Standard)",
-      "band_code": "AMBER",
-      "regional_pricing": {
-        "A": {
-          "agile_price": 14.63,
-          "edf_price": 19.67,
-          "is_free_moment": false
-        },
-        "B": {
-          "agile_price": 13.76,
-          "edf_price": 19.67,
-          "is_free_moment": false
-        },
-        "C": {
-          "agile_price": 13.76,
-          "edf_price": 20.8,
-          "is_free_moment": false
-        },
-        "D": {
-          "agile_price": 15.49,
-          "edf_price": 21.03,
-          "is_free_moment": false
-        },
-        "E": {
-          "agile_price": 14.63,
-          "edf_price": 19.45,
-          "is_free_moment": false
-        },
-        "F": {
-          "agile_price": 14.63,
-          "edf_price": 19.45,
-          "is_free_moment": false
-        },
-        "G": {
-          "agile_price": 14.63,
-          "edf_price": 20.01,
-          "is_free_moment": false
-        },
-        "H": {
-          "agile_price": 14.63,
-          "edf_price": 20.01,
-          "is_free_moment": false
-        },
-        "J": {
-          "agile_price": 15.49,
-          "edf_price": 19.22,
-          "is_free_moment": false
-        },
-        "K": {
-          "agile_price": 15.49,
-          "edf_price": 20.01,
-          "is_free_moment": false
-        },
-        "L": {
-          "agile_price": 16.35,
-          "edf_price": 19.22,
-          "is_free_moment": false
-        },
-        "M": {
-          "agile_price": 13.76,
-          "edf_price": 19.56,
-          "is_free_moment": false
-        },
-        "N": {
-          "agile_price": 14.63,
-          "edf_price": 19.67,
-          "is_free_moment": false
-        },
-        "P": {
-          "agile_price": 17.21,
-          "edf_price": 21.37,
-          "is_free_moment": false
-        }
-      }
-    },
-    {
-      "valid_from": "2026-08-07T10:30:00+00:00",
-      "valid_to": "2026-08-07T11:00:00+00:00",
-      "band_name": "Amber (Standard)",
-      "band_code": "AMBER",
-      "regional_pricing": {
-        "A": {
-          "agile_price": 13.77,
-          "edf_price": 19.67,
-          "is_free_moment": false
-        },
-        "B": {
-          "agile_price": 12.95,
-          "edf_price": 19.67,
-          "is_free_moment": false
-        },
-        "C": {
-          "agile_price": 12.95,
-          "edf_price": 20.8,
-          "is_free_moment": false
-        },
-        "D": {
-          "agile_price": 14.58,
-          "edf_price": 21.03,
-          "is_free_moment": false
-        },
-        "E": {
-          "agile_price": 13.77,
-          "edf_price": 19.45,
-          "is_free_moment": false
-        },
-        "F": {
-          "agile_price": 13.77,
-          "edf_price": 19.45,
-          "is_free_moment": false
-        },
-        "G": {
-          "agile_price": 13.77,
-          "edf_price": 20.01,
-          "is_free_moment": false
-        },
-        "H": {
-          "agile_price": 13.77,
-          "edf_price": 20.01,
-          "is_free_moment": false
-        },
-        "J": {
-          "agile_price": 14.58,
-          "edf_price": 19.22,
-          "is_free_moment": false
-        },
-        "K": {
-          "agile_price": 14.58,
-          "edf_price": 20.01,
-          "is_free_moment": false
-        },
-        "L": {
-          "agile_price": 15.41,
-          "edf_price": 19.22,
-          "is_free_moment": false
-        },
-        "M": {
-          "agile_price": 12.95,
-          "edf_price": 19.56,
-          "is_free_moment": false
-        },
-        "N": {
-          "agile_price": 13.77,
-          "edf_price": 19.67,
-          "is_free_moment": false
-        },
-        "P": {
-          "agile_price": 16.23,
-          "edf_price": 21.37,
-          "is_free_moment": false
-        }
-      }
-    },
     {
       "valid_from": "2026-08-07T11:00:00+00:00",
       "valid_to": "2026-08-07T11:30:00+00:00",
@@ -1940,72 +1784,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2018,72 +1862,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2096,72 +1940,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2174,72 +2018,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2252,72 +2096,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2330,72 +2174,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2408,72 +2252,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2486,72 +2330,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2564,72 +2408,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2642,72 +2486,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2720,72 +2564,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2798,72 +2642,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2876,72 +2720,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -2954,72 +2798,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.61,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 24.87,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.04,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.7,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 22.78,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.17,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 23.3,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 25.27,
           "is_free_moment": false
         }
       }
@@ -3032,72 +2876,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.68,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.83,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.85,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 13.06,
           "is_free_moment": false
         }
       }
@@ -3110,72 +2954,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.68,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.83,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.85,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 13.06,
           "is_free_moment": false
         }
       }
@@ -3188,72 +3032,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.68,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.83,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.85,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 13.06,
           "is_free_moment": false
         }
       }
@@ -3266,72 +3110,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.68,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.83,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.85,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 13.06,
           "is_free_moment": false
         }
       }
@@ -3344,72 +3188,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.68,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.83,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.85,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 13.06,
           "is_free_moment": false
         }
       }
@@ -3422,72 +3266,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.68,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.83,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.85,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 13.06,
           "is_free_moment": false
         }
       }
@@ -3500,72 +3344,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.68,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.83,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.85,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 13.06,
           "is_free_moment": false
         }
       }
@@ -3578,72 +3422,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.68,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.83,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.85,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 13.06,
           "is_free_moment": false
         }
       }
@@ -3656,72 +3500,72 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.68,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.83,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.85,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 13.06,
           "is_free_moment": false
         }
       }
@@ -3734,72 +3578,228 @@
       "regional_pricing": {
         "A": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "B": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "C": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.68,
           "is_free_moment": false
         },
         "D": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.83,
           "is_free_moment": false
         },
         "E": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "F": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.78,
           "is_free_moment": false
         },
         "G": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "H": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "J": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "K": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 12.15,
           "is_free_moment": false
         },
         "L": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.63,
           "is_free_moment": false
         },
         "M": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.85,
           "is_free_moment": false
         },
         "N": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 11.93,
           "is_free_moment": false
         },
         "P": {
           "agile_price": null,
-          "edf_price": null,
+          "edf_price": 13.06,
+          "is_free_moment": false
+        }
+      }
+    },
+    {
+      "valid_from": "2026-08-08T10:00:00+00:00",
+      "valid_to": "2026-08-08T10:30:00+00:00",
+      "band_name": "Amber (Standard)",
+      "band_code": "AMBER",
+      "regional_pricing": {
+        "A": {
+          "agile_price": null,
+          "edf_price": 11.93,
+          "is_free_moment": false
+        },
+        "B": {
+          "agile_price": null,
+          "edf_price": 11.93,
+          "is_free_moment": false
+        },
+        "C": {
+          "agile_price": null,
+          "edf_price": 12.68,
+          "is_free_moment": false
+        },
+        "D": {
+          "agile_price": null,
+          "edf_price": 12.83,
+          "is_free_moment": false
+        },
+        "E": {
+          "agile_price": null,
+          "edf_price": 11.78,
+          "is_free_moment": false
+        },
+        "F": {
+          "agile_price": null,
+          "edf_price": 11.78,
+          "is_free_moment": false
+        },
+        "G": {
+          "agile_price": null,
+          "edf_price": 12.15,
+          "is_free_moment": false
+        },
+        "H": {
+          "agile_price": null,
+          "edf_price": 12.15,
+          "is_free_moment": false
+        },
+        "J": {
+          "agile_price": null,
+          "edf_price": 11.63,
+          "is_free_moment": false
+        },
+        "K": {
+          "agile_price": null,
+          "edf_price": 12.15,
+          "is_free_moment": false
+        },
+        "L": {
+          "agile_price": null,
+          "edf_price": 11.63,
+          "is_free_moment": false
+        },
+        "M": {
+          "agile_price": null,
+          "edf_price": 11.85,
+          "is_free_moment": false
+        },
+        "N": {
+          "agile_price": null,
+          "edf_price": 11.93,
+          "is_free_moment": false
+        },
+        "P": {
+          "agile_price": null,
+          "edf_price": 13.06,
+          "is_free_moment": false
+        }
+      }
+    },
+    {
+      "valid_from": "2026-08-08T10:30:00+00:00",
+      "valid_to": "2026-08-08T11:00:00+00:00",
+      "band_name": "Amber (Standard)",
+      "band_code": "AMBER",
+      "regional_pricing": {
+        "A": {
+          "agile_price": null,
+          "edf_price": 11.93,
+          "is_free_moment": false
+        },
+        "B": {
+          "agile_price": null,
+          "edf_price": 11.93,
+          "is_free_moment": false
+        },
+        "C": {
+          "agile_price": null,
+          "edf_price": 12.68,
+          "is_free_moment": false
+        },
+        "D": {
+          "agile_price": null,
+          "edf_price": 12.83,
+          "is_free_moment": false
+        },
+        "E": {
+          "agile_price": null,
+          "edf_price": 11.78,
+          "is_free_moment": false
+        },
+        "F": {
+          "agile_price": null,
+          "edf_price": 11.78,
+          "is_free_moment": false
+        },
+        "G": {
+          "agile_price": null,
+          "edf_price": 12.15,
+          "is_free_moment": false
+        },
+        "H": {
+          "agile_price": null,
+          "edf_price": 12.15,
+          "is_free_moment": false
+        },
+        "J": {
+          "agile_price": null,
+          "edf_price": 11.63,
+          "is_free_moment": false
+        },
+        "K": {
+          "agile_price": null,
+          "edf_price": 12.15,
+          "is_free_moment": false
+        },
+        "L": {
+          "agile_price": null,
+          "edf_price": 11.63,
+          "is_free_moment": false
+        },
+        "M": {
+          "agile_price": null,
+          "edf_price": 11.85,
+          "is_free_moment": false
+        },
+        "N": {
+          "agile_price": null,
+          "edf_price": 11.93,
+          "is_free_moment": false
+        },
+        "P": {
+          "agile_price": null,
+          "edf_price": 13.06,
           "is_free_moment": false
         }
       }
