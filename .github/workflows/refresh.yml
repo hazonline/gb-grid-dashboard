@@ -1,0 +1,62 @@
+name: Refresh site data
+
+# Two scheduled runs, roughly matching when new data becomes available:
+#   - Morning: NESO's 2-14 day forecast refresh
+#   - Midday: EDF/Octopus official rate publish
+#
+# IMPORTANT -- cron times below are UTC and do NOT shift for BST. If NESO/
+# Octopus publish on a fixed UK LOCAL clock time, these will effectively
+# fire an hour later than intended for roughly Apr-Oct (BST). This is
+# deliberately mitigated by (a) triggering with a buffer before the
+# earliest expected publish time and (b) polling inside the job via
+# generate_site_data.py --wait-for-fresh-forecast rather than trusting the
+# trigger time to be exact -- see that script's docstring. Adjust the cron
+# times below if you find the buffer isn't generous enough in practice.
+on:
+  schedule:
+    - cron: '30 9 * * *'   # ~09:30 UTC -- buffer before NESO's morning forecast update
+    - cron: '50 11 * * *'  # ~11:50 UTC -- buffer before the midday EDF/Octopus publish
+  workflow_dispatch: {}    # manual trigger from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pandas requests lightgbm scikit-learn joblib --break-system-packages
+
+      - name: "Generate site data (morning run: wait for fresh NESO forecast)"
+        if: "github.event.schedule == '30 9 * * *'"
+        run: python3 generate_site_data.py --wait-for-fresh-forecast --max-wait-minutes 40 --poll-interval-minutes 5
+
+      - name: "Generate site data (midday run / manual trigger)"
+        if: "github.event.schedule != '30 9 * * *'"
+        run: python3 generate_site_data.py
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - uses: actions/deploy-pages@v4
+        id: deployment
