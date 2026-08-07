@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GB Grid Rates — Agile &amp; FreePhase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-date-fns/3.0.0/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --panel-border: #262b36;
+    --text: #eef1f6;
+    --text-dim: #9aa3b2;
+    --accent-agile: #5b9dff;
+    --accent-freephase: #ff9f5b;
+    --band-agile: rgba(91, 157, 255, 0.15);
+    --band-freephase: rgba(255, 159, 91, 0.15);
+    --forecast-shade: rgba(255,255,255,0.035);
+    --red: #ff6b6b;
+    --amber: #ffb84d;
+    --green: #52d68a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  header {
+    padding: 20px 24px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  h1 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  h1 .sub { color: var(--text-dim); font-weight: 500; font-size: 13px; display: block; margin-top: 2px; }
+  .controls { display: flex; gap: 10px; align-items: center; margin-left: auto; flex-wrap: wrap; }
+  select, input[type="date"], button {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  select:hover, button:hover { border-color: #3a4152; }
+  button.primary { background: var(--accent-agile); border-color: var(--accent-agile); color: #0f1115; font-weight: 600; }
+  button.ghost { background: transparent; }
+  #history-banner {
+    display: none;
+    background: #262b36;
+    padding: 8px 24px;
+    font-size: 13px;
+    color: var(--text-dim);
+    align-items: center;
+    gap: 10px;
+  }
+  #history-banner strong { color: var(--text); }
+  main { padding: 20px 24px 60px; max-width: 1200px; margin: 0 auto; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 14px;
+    padding: 18px 20px 12px;
+    margin-bottom: 20px;
+  }
+  .panel-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+  .panel-title { font-weight: 600; font-size: 15px; }
+  .panel-title .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; }
+  .panel-meta { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-dim); }
+  .chart-wrap { position: relative; height: 320px; }
+  .legend-row { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; color: var(--text-dim); }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .swatch { width: 18px; height: 3px; border-radius: 2px; display: inline-block; }
+  .swatch.dashed { background: repeating-linear-gradient(90deg, currentColor 0 6px, transparent 6px 10px); height: 2px; }
+  .swatch.band { height: 10px; border-radius: 3px; opacity: 0.5; }
+  .band-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-weight: 500;
+  }
+  .band-red { background: rgba(255,107,107,0.15); color: var(--red); }
+  .band-amber { background: rgba(255,184,77,0.15); color: var(--amber); }
+  .band-green { background: rgba(82,214,138,0.15); color: var(--green); }
+  .footnote { font-size: 12px; color: var(--text-dim); margin-top: 4px; line-height: 1.5; }
+  .region-warning {
+    display: none;
+    background: rgba(255,184,77,0.1);
+    border: 1px solid rgba(255,184,77,0.3);
+    color: var(--amber);
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  .scroll-hint { font-size: 12px; color: var(--text-dim); text-align: center; margin-top: 6px; }
+  #zoom-reset { display: none; }
+  @media (max-width: 640px) {
+    header { padding: 16px; }
+    main { padding: 14px 14px 40px; }
+    .chart-wrap { height: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>GB Grid Rates
+      <span class="sub">Agile &amp; FreePhase — live, official, forecast</span>
+    </h1>
+  </div>
+  <div class="controls">
+    <select id="region-select" aria-label="DNO region"></select>
+    <input type="date" id="history-date" aria-label="Browse a past date">
+    <button id="history-go">Go back in time</button>
+    <button id="history-reset" class="ghost" style="display:none">Back to live view</button>
+  </div>
+</header>
+
+<div id="history-banner">
+  <span>Viewing history: <strong id="history-label"></strong></span>
+  <button id="history-reset-2" class="ghost">Back to live view</button>
+</div>
+
+<main>
+  <div id="region-warning" class="region-warning"></div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <div class="panel-title"><span class="dot" style="background:var(--accent-agile)"></span>Agile</div>
+      <div class="panel-meta" id="agile-meta">loading…</div>
+    </div>
+    <div class="chart-wrap"><canvas id="chart-agile"></canvas></div>
+    <div class="legend-row">
+      <span class="legend-item"><span class="swatch" style="background:var(--accent-agile)"></span>Official rate</span>
+      <span class="legend-item"><span class="swatch dashed" style="color:var(--accent-agile)"></span>Forecast (median)</span>
+      <span class="legend-item"><span class="swatch band" style="background:var(--accent-agile)"></span>Forecast range (p10–p90)</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <div class="panel-title"><span class="dot" style="background:var(--accent-freephase)"></span>FreePhase</div>
+      <div class="panel-meta" id="freephase-meta">loading…</div>
+    </div>
+    <div class="chart-wrap"><canvas id="chart-freephase"></canvas></div>
+    <div class="legend-row">
+      <span class="legend-item"><span class="swatch" style="background:var(--accent-freephase)"></span>Official rate</span>
+      <span class="legend-item"><span class="swatch dashed" style="color:var(--accent-freephase)"></span>Forecast (median)</span>
+      <span class="legend-item"><span class="swatch band" style="background:var(--accent-freephase)"></span>Forecast range (p10–p90)</span>
+      <span class="band-badge band-red">Red</span>
+      <span class="band-badge band-amber">Amber</span>
+      <span class="band-badge band-green">Green</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">Scroll or drag horizontally on a chart to move into the forecast window. Double-click to reset zoom.</div>
+  <p class="footnote" id="global-footnote"></p>
+</main>
+
+<script>
+const DATA_BASE = './data';
+let regionsManifest = null;
+let predictionsData = null; // region J only
+let currentRegion = null;
+let charts = {};
+let historyMode = false;
+
+async function fetchJSON(path) {
+  const res = await fetch(path, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
+  return res.json();
+}
+
+function fmtDate(epoch) {
+  return new Date(epoch * 1000);
+}
+
+function bandColor(band) {
+  if (band === 'Red') return 'var(--red)';
+  if (band === 'Green') return 'var(--green)';
+  return 'var(--amber)';
+}
+
+// Build the dataset for a chart: official points (solid) + prediction
+// median (dashed) + prediction band (filled area), with a clear boundary
+// between "known" and "forecast" so it never reads as one continuous
+// unlabeled line.
+function buildDatasets(productKey, officialPairs, predictionRows, accentVar) {
+  const accent = getComputedStyle(document.documentElement).getPropertyValue(accentVar).trim();
+  const bandVar = productKey === 'agile' ? '--band-agile' : '--band-freephase';
+  const bandColorCss = getComputedStyle(document.documentElement).getPropertyValue(bandVar).trim();
+
+  const officialPoints = officialPairs.map(([t, v]) => ({ x: fmtDate(t), y: v }));
+
+  const datasets = [
+    {
+      label: 'Official',
+      data: officialPoints,
+      borderColor: accent,
+      backgroundColor: accent,
+      borderWidth: 2,
+      pointRadius: 0,
+      tension: 0.15,
+      spanGaps: false,
+    },
+  ];
+
+  if (predictionRows && predictionRows.length) {
+    const medianPoints = predictionRows.map(r => ({ x: fmtDate(r.t), y: r.p50 }));
+    const p10Points = predictionRows.map(r => ({ x: fmtDate(r.t), y: r.p10 }));
+    const p90Points = predictionRows.map(r => ({ x: fmtDate(r.t), y: r.p90 }));
+
+    datasets.push({
+      label: 'Forecast range',
+      data: p90Points,
+      borderColor: 'transparent',
+      backgroundColor: bandColorCss,
+      pointRadius: 0,
+      fill: '+1',
+      order: 3,
+    });
+    datasets.push({
+      label: 'Forecast p10',
+      data: p10Points,
+      borderColor: 'transparent',
+      backgroundColor: bandColorCss,
+      pointRadius: 0,
+      fill: false,
+      order: 3,
+    });
+    datasets.push({
+      label: 'Forecast (median)',
+      data: medianPoints,
+      borderColor: accent,
+      backgroundColor: accent,
+      borderWidth: 2,
+      borderDash: [6, 4],
+      pointRadius: 0,
+      tension: 0.15,
+      order: 1,
+    });
+  }
+
+  return datasets;
+}
+
+function forecastStartAnnotation(predictionRows) {
+  if (!predictionRows || !predictionRows.length) return null;
+  return fmtDate(predictionRows[0].t);
+}
+
+function renderChart(canvasId, productKey, officialPairs, predictionRows, accentVar) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  if (charts[canvasId]) charts[canvasId].destroy();
+
+  const datasets = buildDatasets(productKey, officialPairs, predictionRows, accentVar);
+  const forecastStart = forecastStartAnnotation(predictionRows);
+
+  const plugins = {
+    legend: { display: false },
+    tooltip: {
+      mode: 'index',
+      intersect: false,
+      filter: (item) => item.dataset.label !== 'Forecast range' && item.dataset.label !== 'Forecast p10',
+      callbacks: {
+        label: (item) => `${item.dataset.label}: ${item.parsed.y?.toFixed(2)} p/kWh`,
+      },
+    },
+    zoom: {
+      pan: { enabled: true, mode: 'x' },
+      zoom: {
+        wheel: { enabled: true },
+        pinch: { enabled: true },
+        mode: 'x',
+      },
+      limits: { x: { minRange: 1000 * 60 * 60 * 24 } },
+    },
+  };
+
+  if (forecastStart) {
+    plugins.annotation = {
+      annotations: {
+        forecastLine: {
+          type: 'line',
+          xMin: forecastStart, xMax: forecastStart,
+          borderColor: 'rgba(255,255,255,0.25)',
+          borderWidth: 1,
+          borderDash: [4, 4],
+          label: {
+            display: true,
+            content: 'Forecast →',
+            position: 'start',
+            color: 'var(--text-dim)',
+            font: { family: 'DM Mono', size: 10 },
+            backgroundColor: 'transparent',
+          },
+        },
+      },
+    };
+  }
+
+  charts[canvasId] = new Chart(ctx, {
+    type: 'line',
+    data: { datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'nearest', axis: 'x', intersect: false },
+      scales: {
+        x: {
+          type: 'time',
+          time: { unit: 'day' },
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { color: 'var(--text-dim)', font: { family: 'DM Mono', size: 10 } },
+        },
+        y: {
+          title: { display: true, text: 'p/kWh', color: 'var(--text-dim)', font: { family: 'DM Mono', size: 10 } },
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { color: 'var(--text-dim)', font: { family: 'DM Mono', size: 10 } },
+        },
+      },
+      plugins,
+    },
+  });
+
+  document.getElementById(canvasId).ondblclick = () => charts[canvasId].resetZoom();
+}
+
+function updateMeta(productKey, officialPairs, predictionRows) {
+  const el = document.getElementById(`${productKey}-meta`);
+  if (!officialPairs || !officialPairs.length) { el.textContent = 'no data'; return; }
+  const latest = officialPairs[officialPairs.length - 1];
+  const parts = [`current: ${latest[1].toFixed(2)}p/kWh`];
+  if (predictionRows && predictionRows.length) {
+    parts.push(`${predictionRows.length / 48 | 0}d forecast loaded`);
+  }
+  el.textContent = parts.join(' · ');
+}
+
+const LIVE_VIEW_RECENT_DAYS = 14; // default glance window before scrolling into the forecast
+
+async function loadLiveView(region) {
+  historyMode = false;
+  document.getElementById('history-banner').style.display = 'none';
+  document.getElementById('history-reset').style.display = 'none';
+
+  const isPrimary = region === regionsManifest.primary_region;
+  const warningEl = document.getElementById('region-warning');
+  if (!isPrimary) {
+    warningEl.style.display = 'block';
+    warningEl.textContent = `14-day forecasts are only available for ${regionsManifest.regions[regionsManifest.primary_region]} ` +
+      `(region ${regionsManifest.primary_region}) — the region the model is trained on. Showing official rates only for ${regionsManifest.regions[region]}.`;
+  } else {
+    warningEl.style.display = 'none';
+  }
+
+  // The default glance view should show a recent window, not the entire
+  // multi-year history dumped into one chart (deep history is what the
+  // "go back in time" browser is for, loaded separately in loadHistoryView).
+  // Region J has a pre-trimmed recent window already in predictions.json;
+  // other regions only ever get a ~90-day file, so slice that down further
+  // client-side to keep the default view consistent across regions.
+  const cutoffEpoch = Math.floor(Date.now() / 1000) - LIVE_VIEW_RECENT_DAYS * 86400;
+  let officialByProduct;
+  if (isPrimary) {
+    officialByProduct = predictionsData.official_recent;
+  } else {
+    const history = await fetchJSON(`${DATA_BASE}/history_${region}.json`);
+    officialByProduct = {
+      agile: (history.agile || []).filter(([t]) => t >= cutoffEpoch),
+      freephase: (history.freephase || []).filter(([t]) => t >= cutoffEpoch),
+    };
+  }
+
+  const predictions = isPrimary ? predictionsData.predictions : { agile: [], freephase: [] };
+
+  for (const productKey of ['agile', 'freephase']) {
+    const officialPairs = officialByProduct[productKey] || [];
+    const predictionRows = predictions[productKey] || [];
+    renderChart(`chart-${productKey}`, productKey, officialPairs, predictionRows,
+      productKey === 'agile' ? '--accent-agile' : '--accent-freephase');
+    updateMeta(productKey, officialPairs, predictionRows);
+  }
+}
+
+async function loadHistoryView(region, dateStr) {
+  historyMode = true;
+  const chosen = new Date(dateStr + 'T00:00:00Z');
+  const dayAfter = new Date(chosen.getTime() + 2 * 24 * 60 * 60 * 1000); // on-the-day + next day
+
+  document.getElementById('history-banner').style.display = 'flex';
+  document.getElementById('history-reset').style.display = 'inline-block';
+  document.getElementById('history-label').textContent =
+    chosen.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) + ' (+ next day)';
+  document.getElementById('region-warning').style.display = 'none';
+
+  const history = await fetchJSON(`${DATA_BASE}/history_${region}.json`);
+
+  for (const productKey of ['agile', 'freephase']) {
+    const all = history[productKey] || [];
+    const windowed = all.filter(([t]) => {
+      const d = fmtDate(t);
+      return d >= chosen && d < dayAfter;
+    });
+    renderChart(`chart-${productKey}`, productKey, windowed, null,
+      productKey === 'agile' ? '--accent-agile' : '--accent-freephase');
+    updateMeta(productKey, windowed, null);
+  }
+}
+
+async function init() {
+  regionsManifest = await fetchJSON(`${DATA_BASE}/regions.json`);
+  predictionsData = await fetchJSON(`${DATA_BASE}/predictions.json`);
+
+  const select = document.getElementById('region-select');
+  for (const [code, name] of Object.entries(regionsManifest.regions)) {
+    const opt = document.createElement('option');
+    opt.value = code;
+    opt.textContent = `${name} (${code})${code === regionsManifest.primary_region ? ' — forecasts available' : ''}`;
+    select.appendChild(opt);
+  }
+  select.value = regionsManifest.primary_region;
+  currentRegion = regionsManifest.primary_region;
+
+  document.getElementById('global-footnote').textContent =
+    `Predictions generated ${new Date(predictionsData.generated_at).toLocaleString('en-GB')}. ` +
+    `p10–p90 range reflects a rolling-calibrated uncertainty band, not a guarantee. Not financial advice.`;
+
+  select.addEventListener('change', () => {
+    currentRegion = select.value;
+    if (historyMode) {
+      const dateStr = document.getElementById('history-date').value;
+      if (dateStr) loadHistoryView(currentRegion, dateStr);
+    } else {
+      loadLiveView(currentRegion);
+    }
+  });
+
+  document.getElementById('history-go').addEventListener('click', () => {
+    const dateStr = document.getElementById('history-date').value;
+    if (!dateStr) return;
+    loadHistoryView(currentRegion, dateStr);
+  });
+
+  const resetHandler = () => {
+    document.getElementById('history-date').value = '';
+    loadLiveView(currentRegion);
+  };
+  document.getElementById('history-reset').addEventListener('click', resetHandler);
+  document.getElementById('history-reset-2').addEventListener('click', resetHandler);
+
+  await loadLiveView(currentRegion);
+}
+
+init().catch(err => {
+  console.error(err);
+  document.querySelector('main').insertAdjacentHTML('afterbegin',
+    `<div class="region-warning" style="display:block">Failed to load site data: ${err.message}. ` +
+    `If this is the first deploy, the data files may not exist yet — check the refresh workflow has run.</div>`);
+});
+</script>
+
+</body>
+</html>
