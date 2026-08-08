@@ -48,7 +48,17 @@ OTHER_REGION_HISTORY_DAYS = 90  # non-J regions: how far back "go back in time" 
 def to_epoch_pairs(df, value_col):
     if df.empty or value_col not in df.columns:
         return []
-    ts = (df["timestamp"].astype("int64") // 10**9).tolist()
+    # Force nanosecond resolution explicitly before extracting int64. Pandas
+    # 3.0 changed the default datetime64 resolution from nanoseconds to
+    # microseconds for many operations, so a bare .astype('int64') here
+    # silently returns microseconds instead -- dividing that by 10**9
+    # (correct for nanoseconds) produced timestamps 1000x too small, which
+    # is exactly the "shows 1970" symptom: real epoch seconds ~1.79 billion,
+    # divided by an extra 1000, comes out ~1.79 million -- a date in early
+    # 1970. Confirmed by reproducing both code paths side by side; the other
+    # timestamp path (predictions.json, via pd.Timestamp.timestamp()) never
+    # made this assumption and was unaffected.
+    ts = (df["timestamp"].astype("datetime64[ns, UTC]").astype("int64") // 10**9).tolist()
     vals = df[value_col].round(3).tolist()
     return list(zip(ts, vals))
 
